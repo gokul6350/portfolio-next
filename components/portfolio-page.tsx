@@ -471,7 +471,7 @@ export function PortfolioPage() {
         <footer className="border-t">
           <div className="max-w-6xl mx-auto px-4 py-6">
             <p className="text-center text-sm text-muted-foreground">
-              © 2024 Gokul. Built with Next.js and Tailwind CSS.
+              © 2025 Gokul. Built with Next.js and Tailwind CSS.
             </p>
           </div>
         </footer>
