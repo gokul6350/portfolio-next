@@ -1,15 +1,27 @@
-'use client'
+"use client"
 
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { Moon, Sun, Github, Twitter, Linkedin, Mail, ChevronDown, Youtube, Instagram, ExternalLink } from 'lucide-react'
+import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
+import {
+  Moon,
+  Sun,
+  Github,
+  Twitter,
+  Linkedin,
+  Mail,
+  ChevronDown,
+  Youtube,
+  Instagram,
+  ExternalLink,
+  Lock,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic"
 
-const GitHubCalendar = dynamic(() => import('react-github-calendar'), { ssr: false })
+const GitHubCalendar = dynamic(() => import("react-github-calendar"), { ssr: false })
 
 export function PortfolioPage() {
   const [isDark, setIsDark] = useState(false)
@@ -19,65 +31,106 @@ export function PortfolioPage() {
   }, [])
 
   const techStack = {
-    'Languages': ['C/C++', 'Python', 'JavaScript'],
-    'Frameworks': ['FastAPI', 'TensorFlow', 'Keras', 'NumPy', 'OpenCV','Flask'],
-    'Hardware': ['Arduino', 'Raspberry Pi', 'Robotics', 'Sensors'],
-    'Tools': ['Git', 'Docker', 'Linux', 'VS Code', 'Jupyter', 'Claude', 'Perplexity', 'Cursor', 'OpenInterpreter', 'o1 & gpt4.x']
+    Languages: ["C/C++", "Python", "JavaScript"],
+    Frameworks: ["FastAPI", "TensorFlow", "Keras", "NumPy", "OpenCV", "Flask"],
+    Hardware: ["Arduino", "Raspberry Pi", "Robotics", "Sensors"],
+    Tools: [
+      "Git",
+      "Docker",
+      "Linux",
+      "VS Code",
+      "Jupyter",
+      "Claude",
+      "Perplexity",
+      "Cursor",
+      "OpenInterpreter",
+      "o1 & gpt4.x",
+    ],
   }
 
   const projects = [
     {
+      title: "Deep shell",
+      description: "A intelligent terminal application that combines a chat interface with a command-line interface, It helps users execute terminal commands through natural language conversations.",
+      tags: ["Python", "CLI", "System Programming", "Shell","Ai","Software"],
+      status: "In Progress",
+      github: "https://github.com/gokul6350/dsh-shell",
+    },
+    {
       title: "Robotics Arm Assistance",
-      description: "An advanced robotics project utilizing computer vision and machine learning for precise arm control.",
-      tags: ["Python", "OpenCV", "TensorFlow", "Arduino"],
-      status: "In Progress"
+      description:
+        "An advanced robotics project utilizing computer vision and LLms for precise arm control.",
+      tags: ["Python", "OpenCV", "flask", "Arduino","Robotics","AI","cobot "],
+      status: "Completed",
+      github: "https://github.com/gokul6350/ARMv6",
+    },
+    {
+      title: "Portfolio-next",
+      description: "A modern, responsive portfolio website built with Next.js, Tailwind CSS, and Framer Motion.",
+      tags: ["Next.js", "Tailwind CSS", "Framer Motion", "TypeScript","personal website"],
+      status: "In Progress",
+      github: "https://github.com/gokul6350/portfolio-next",
     },
     {
       title: "ArduinoSerial2",
-      description: "A Python library for seamless serial communication with Arduino boards, featuring auto-detection and multithreading support.",
-      tags: ["Python", "Arduino", "Serial Communication", "PyPI"],
-      status: "Completed"
+      description:
+        "A Python library for seamless serial communication with Arduino boards, featuring auto-detection and multithreading support.",
+      tags: ["Python", "Arduino", "Serial Communication", "PyPI","Python Package"],
+      status: "Completed",
+      github: "https://github.com/gokul6350/ArduinoSerial2",
     },
     {
-      title: "Smart Home Automation",
-      description: "IoT-based home automation system with voice control and machine learning capabilities.",
-      tags: ["Python", "Raspberry Pi", "TensorFlow", "FastAPI"],
-      status: "Completed"
-    }
+      title: "Hospital appp",
+      description: "Healthcare management application for streamlining patient care and hospital operations.",
+      tags: ["Flask", "python", "sql","Web App"],
+      status: "In Progress",
+      github: null,
+    },
+    {
+      title: "Campus Go",
+      description: "A comprehensive campus management and navigation system for students and faculty.",
+      tags: ["React", "Node.js", "React native","Mobile App"],
+      status: "In Progress",
+      github: null,
+    },
   ]
 
   return (
-    <div className={`min-h-screen ${isDark ? 'dark' : ''}`}>
+    <div className={`min-h-screen ${isDark ? "dark" : ""}`}>
       <div className="bg-background text-foreground">
         {/* Announcement Banner */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="bg-primary/10 p-3 text-center text-sm"
         >
-          <span className="animate-pulse">🤖</span>
-          {' Currently working on '}
-          <a href="#" className="text-primary font-medium hover:underline">Robotics Arm Assistance</a>
-          {' '}
-          <span className="animate-pulse">🤖</span>
+          <span className="animate-pulse">🚀</span>
+          {" Currently working on "}
+          <a href="#" className="text-primary font-medium hover:underline">
+            Deep shell
+          </a>{" "}
+          <span className="animate-pulse">🚀</span>
         </motion.div>
 
         {/* Navigation */}
         <header className="border-b sticky top-0 bg-background/80 backdrop-blur-sm z-50">
           <nav className="max-w-6xl mx-auto p-4 flex justify-between items-center">
             <div className="flex gap-6">
-              <a href="#" className="font-medium hover:text-primary">Home</a>
-              <a href="#projects" className="text-muted-foreground hover:text-primary">Projects</a>
-              <a href="#about" className="text-muted-foreground hover:text-primary">About</a>
-              <a href="#contact" className="text-muted-foreground hover:text-primary">Contact</a>
+              <a href="#" className="font-medium hover:text-primary">
+                Home
+              </a>
+              <a href="#projects" className="text-muted-foreground hover:text-primary">
+                Projects
+              </a>
+              <a href="#about" className="text-muted-foreground hover:text-primary">
+                About
+              </a>
+              <a href="#contact" className="text-muted-foreground hover:text-primary">
+                Contact
+              </a>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsDark(!isDark)}
-              className="rounded-full"
-            >
+            <Button variant="ghost" size="icon" onClick={() => setIsDark(!isDark)} className="rounded-full">
               {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
           </nav>
@@ -100,7 +153,7 @@ export function PortfolioPage() {
                 alt="Profile"
                 className="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-primary/10"
               />
-              <motion.h1 
+              <motion.h1
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
@@ -108,7 +161,7 @@ export function PortfolioPage() {
               >
                 Hi 👋, I'm <span className="text-primary">Gokul</span>
               </motion.h1>
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
@@ -117,8 +170,8 @@ export function PortfolioPage() {
                 A passionate Robotics, AI, and ML developer building the future of automation and intelligent systems.
               </motion.p>
             </div>
-            
-            <motion.div 
+
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.5 }}
@@ -171,19 +224,19 @@ export function PortfolioPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
                       <p className="text-sm text-muted-foreground">Total Stars</p>
-                      <p className="text-2xl font-bold">17</p>
+                      <p className="text-2xl font-bold">42</p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-sm text-muted-foreground">Repositories</p>
-                      <p className="text-2xl font-bold">29</p>
+                      <p className="text-2xl font-bold">35</p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-sm text-muted-foreground">Commits</p>
-                      <p className="text-2xl font-bold">201</p>
+                      <p className="text-2xl font-bold">486</p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-sm text-muted-foreground">Pull Requests</p>
-                      <p className="text-2xl font-bold">4</p>
+                      <p className="text-2xl font-bold">12</p>
                     </div>
                   </div>
                 </CardContent>
@@ -198,18 +251,18 @@ export function PortfolioPage() {
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
                         <Badge variant="default">Active Project</Badge>
-                        <h3 className="font-semibold">Robotics Arm Assistance</h3>
+                        <h3 className="font-semibold">Deep shell</h3>
                       </div>
                       <p className="text-sm text-muted-foreground">
-                        Developing an intelligent robotic arm system using computer vision and machine learning
-                        for precise control and automation.
+                      Deep Shell is an intelligent terminal application that combines a chat interface with a command-line interface, It helps users execute terminal commands through natural language conversations.
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      <Badge variant="secondary">Computer Vision</Badge>
-                      <Badge variant="secondary">Machine Learning</Badge>
-                      <Badge variant="secondary">Robotics</Badge>
                       <Badge variant="secondary">Python</Badge>
+                      <Badge variant="secondary">CLI</Badge>
+                      <Badge variant="secondary">System Programming</Badge>
+                      <Badge variant="secondary">Shell</Badge>
+                      <Badge variant="secondary">Ai</Badge>
                     </div>
                   </div>
                 </CardContent>
@@ -230,14 +283,14 @@ export function PortfolioPage() {
               <h2 className="text-2xl font-bold mb-8 text-center">GitHub Contributions</h2>
               <Card className="p-6">
                 <div className="overflow-x-auto">
-                  <GitHubCalendar 
-                    username="gokul6350" 
+                  <GitHubCalendar
+                    username="gokul6350"
                     theme={{
-                      light: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
-                      dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353']
+                      light: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
+                      dark: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
                     }}
                     labels={{
-                      totalCount: '{{count}} contributions in the last year'
+                      totalCount: "{{count}} contributions in the last year",
                     }}
                     blockSize={12}
                     blockMargin={4}
@@ -270,7 +323,7 @@ export function PortfolioPage() {
                   <TabsContent key={category} value={category} className="mt-6">
                     <Card>
                       <CardContent className="p-6">
-                        <motion.div 
+                        <motion.div
                           className="flex flex-wrap gap-2"
                           initial="hidden"
                           animate="visible"
@@ -327,11 +380,43 @@ export function PortfolioPage() {
                       <CardHeader>
                         <div className="flex items-center justify-between">
                           <CardTitle className="text-lg">{project.title}</CardTitle>
-                          <Badge variant={project.status === "In Progress" ? "default" : "secondary"}>
-                            {project.status}
-                          </Badge>
+                          <div className="flex items-center gap-2">
+                            <Badge
+                              variant={project.status === "In Progress" ? "default" : "secondary"}
+                              className={`${
+                                project.status === "In Progress"
+                                  ? "bg-amber-100/80 text-amber-800 hover:bg-amber-100"
+                                  : "bg-green-100/80 text-green-800 hover:bg-green-100"
+                              } border-0`}
+                            >
+                              {project.status}
+                            </Badge>
+                          </div>
                         </div>
                         <CardDescription>{project.description}</CardDescription>
+                        <div className="flex gap-2 mt-2">
+                          {project.github ? (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="h-7 text-xs"
+                              onClick={() => window.open(project.github, "_blank")}
+                            >
+                              <Github className="h-3 w-3 mr-1" />
+                              GitHub
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="h-7 text-xs"
+                              onClick={() => alert("This project is not public yet.")}
+                            >
+                              <Lock className="h-3 w-3 mr-1" />
+                              Private
+                            </Button>
+                          )}
+                        </div>
                       </CardHeader>
                       <CardContent className="flex-grow">
                         <div className="flex flex-wrap gap-2">
@@ -356,7 +441,7 @@ export function PortfolioPage() {
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.5  }}
+              transition={{ duration: 0.5 }}
               viewport={{ once: true }}
               className="text-center"
             >
@@ -392,9 +477,9 @@ export function PortfolioPage() {
         </footer>
 
         {/* Scroll Indicator */}
-        <motion.div 
+        <motion.div
           animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
+          transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2 }}
           className="fixed bottom-8 left-1/2 -translate-x-1/2"
         >
           <ChevronDown className="h-6 w-6 text-muted-foreground" />
@@ -403,3 +488,4 @@ export function PortfolioPage() {
     </div>
   )
 }
+
