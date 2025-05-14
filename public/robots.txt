@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gokulbarath.vercel.app/sitemap.xml
