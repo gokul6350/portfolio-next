@@ -16,8 +16,12 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Gokulbarath",
-  description: "Gokulbarath portfolio next.js",
+  metadataBase: new URL('https://gokulbarath.vercel.app'),
+  title: "Gokulbarath - Robotics & AI Developer",
+  description: "Portfolio of Gokulbarath - A passionate Robotics, AI, and ML developer building the future of automation and intelligent systems.",
+  verification: {
+    google: 'rBRuGO1Cm1PRYSWNaunCsSkoMd84Tetqw914_NKfV1Q',
+  },
 };
 
 const config = {
