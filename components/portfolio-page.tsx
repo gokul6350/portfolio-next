@@ -80,10 +80,10 @@ export function PortfolioPage() {
       github: "https://github.com/gokul6350/ArduinoSerial2",
     },
     {
-      title: "Hospital appp",
+      title: "Hospital Management Dashboard",
       description: "Healthcare management application for streamlining patient care and hospital operations.",
       tags: ["Flask", "python", "sql","Web App"],
-      status: "In Progress",
+      status: "Completed",
       github: null,
     },
     {
@@ -93,6 +93,20 @@ export function PortfolioPage() {
       status: "In Progress",
       github: null,
     },
+    {
+      title: "Invoice Scanner System",
+      description: "Invoice Scanner System is a web-based application designed for Industries to capture, process, and store invoice data from different vendors & Manage them.",
+      tags: ["React", "Node.js", "React native","Mobile App"],
+      status: "In Progress",
+      github: null,
+    },
+    {
+      title: "Snake AI",
+      description: "An AI-powered Snake game implementation using reinforcement learning and neural networks to train an agent to play the classic Snake game autonomously.",
+      tags: ["Python", "PyTorch", "Reinforcement Learning", "Neural Networks", "AI", "Game Development"],
+      status: "Completed",
+      github: "https://github.com/gokul6350/SNAKE-AI",
+    },    
   ]
 
   return (
@@ -159,7 +173,7 @@ export function PortfolioPage() {
                 transition={{ delay: 0.2, duration: 0.5 }}
                 className="text-4xl font-bold mb-4"
               >
-                Hi 👋, I'm <span className="text-primary">Gokul</span>
+                Hi 👋, I'm <span className="text-primary">Gokulbarath</span>
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0 }}
