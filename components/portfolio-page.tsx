@@ -216,6 +216,19 @@ export function PortfolioPage() {
                 </a>
               </Button>
             </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+              className="mt-8 flex justify-center"
+            >
+              <Button
+                onClick={() => window.open('https://clone-self-three.vercel.app/', 'AI Clone', 'width=800,height=600')}
+              >
+                Talk to my AI clone
+              </Button>
+            </motion.div>
           </motion.div>
         </section>
 
