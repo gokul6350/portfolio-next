@@ -14,21 +14,50 @@ import {
   Instagram,
   ExternalLink,
   Lock,
+  X,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import dynamic from "next/dynamic"
+import { useSearchParams } from "next/navigation"
 
 const GitHubCalendar = dynamic(() => import("react-github-calendar"), { ssr: false })
 
 export function PortfolioPage() {
   const [isDark, setIsDark] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+  const searchParams = useSearchParams()
+  const openChat = searchParams.get('chat')
 
   useEffect(() => {
-    // No controls.start needed here anymore
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
   }, [])
+
+  useEffect(() => {
+    if (openChat === 'true') {
+      if (isMobile) {
+        window.open('https://clone-self-three.vercel.app/', '_blank')
+      } else {
+        setIsModalOpen(true)
+      }
+    }
+  }, [openChat, isMobile])
+
+  const handleCloneButtonClick = () => {
+    if (isMobile) {
+      window.open('https://clone-self-three.vercel.app/', '_blank')
+    } else {
+      setIsModalOpen(true)
+    }
+  }
 
   const techStack = {
     Languages: ["C/C++", "Python", "JavaScript"],
@@ -223,9 +252,7 @@ export function PortfolioPage() {
               transition={{ delay: 0.8, duration: 0.5 }}
               className="mt-8 flex justify-center"
             >
-              <Button
-                onClick={() => window.open('https://clone-self-three.vercel.app/', 'AI Clone', 'width=800,height=600')}
-              >
+              <Button onClick={handleCloneButtonClick}>
                 Talk to my AI clone
               </Button>
             </motion.div>
@@ -511,6 +538,29 @@ export function PortfolioPage() {
         >
           <ChevronDown className="h-6 w-6 text-muted-foreground" />
         </motion.div>
+
+        {/* AI Clone Modal */}
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-background rounded-lg shadow-xl w-full max-w-4xl h-full md:h-3/4 flex flex-col"
+            >
+              <div className="flex justify-between items-center p-2 border-b">
+                <h3 className="text-lg font-semibold ml-2">AI Clone</h3>
+                <Button variant="ghost" size="icon" onClick={() => setIsModalOpen(false)}>
+                  <X className="h-5 w-5" />
+                </Button>
+              </div>
+              <iframe
+                src="https://clone-self-three.vercel.app/"
+                className="w-full h-full border-0"
+                title="AI Clone"
+              ></iframe>
+            </motion.div>
+          </div>
+        )}
       </div>
     </div>
   )
