@@ -1,7 +1,10 @@
-import { PortfolioPage } from "@/components/portfolio-page"
+import { Suspense } from 'react';
+import { PortfolioPage } from "./portfolio-page-client";
 
 export default function Home() {
   return (
-    <PortfolioPage />
+    <Suspense fallback={<div>Loading...</div>}>
+      <PortfolioPage />
+    </Suspense>
   );
 }
