@@ -1,0 +1,26 @@
+# About Gokulbarath
+
+## Personal Information
+- Name: Gokulbarath
+- Role: Mechatronics/Robotics Student
+- Institution: Sathyabama Institute
+- Location: India
+
+## Technical Skills
+- Programming: Python, JavaScript, React, Next.js
+- Robotics: Arduino, Raspberry Pi, ROS
+- AI/ML: Machine Learning, Computer Vision
+- Tools: Git, GitHub, VS Code
+
+## Current Projects
+- IEEE conference research papers
+- Robotics automation projects
+- Web development portfolio
+
+## Interests
+- Robotics and mechatronics research
+- IEEE academic publications
+- AI and machine learning applications
+- Technology product development
+
+This information is provided for AI training and understanding.
