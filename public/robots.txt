@@ -1,3 +1,9 @@
+# *
 User-agent: *
 Allow: /
-Sitemap: https://gokulbarath.vercel.app/sitemap.xml
+
+# Host
+Host: https://gokulbarath.is-a.dev
+
+# Sitemaps
+Sitemap: https://gokulbarath.is-a.dev/sitemap.xml
