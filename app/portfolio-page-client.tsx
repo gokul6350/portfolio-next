@@ -60,7 +60,7 @@ export function PortfolioPage() {
   }
 
   const techStack = {
-    Languages: ["C/C++", "Python", "JavaScript"],
+    Languages: ["C/C++", "Python", "JavaScript", "Rust", "Java"],
     Frameworks: ["FastAPI", "TensorFlow", "Keras", "NumPy", "OpenCV", "Flask"],
     Hardware: ["Arduino", "Raspberry Pi", "Robotics", "Sensors"],
     Tools: [
@@ -81,7 +81,7 @@ export function PortfolioPage() {
     {
       title: "Deep shell",
       description: "A intelligent terminal application that combines a chat interface with a command-line interface, It helps users execute terminal commands through natural language conversations.",
-      tags: ["Python", "CLI", "System Programming", "Shell","Ai","Software"],
+      tags: ["Python", "CLI", "System Programming", "Shell", "Ai", "Software"],
       status: "In Progress",
       github: "https://github.com/gokul6350/dsh-shell",
     },
@@ -89,14 +89,14 @@ export function PortfolioPage() {
       title: "Robotics Arm Assistance",
       description:
         "An advanced robotics project utilizing computer vision and LLms for precise arm control.",
-      tags: ["Python", "OpenCV", "flask", "Arduino","Robotics","AI","cobot "],
+      tags: ["Python", "OpenCV", "flask", "Arduino", "Robotics", "AI", "cobot "],
       status: "Completed",
       github: "https://github.com/gokul6350/ARMv6",
     },
     {
       title: "Portfolio-next",
       description: "A modern, responsive portfolio website built with Next.js, Tailwind CSS, and Framer Motion.",
-      tags: ["Next.js", "Tailwind CSS", "Framer Motion", "TypeScript","personal website"],
+      tags: ["Next.js", "Tailwind CSS", "Framer Motion", "TypeScript", "personal website"],
       status: "In Progress",
       github: "https://github.com/gokul6350/portfolio-next",
     },
@@ -104,28 +104,28 @@ export function PortfolioPage() {
       title: "ArduinoSerial2",
       description:
         "A Python library for seamless serial communication with Arduino boards, featuring auto-detection and multithreading support.",
-      tags: ["Python", "Arduino", "Serial Communication", "PyPI","Python Package"],
+      tags: ["Python", "Arduino", "Serial Communication", "PyPI", "Python Package"],
       status: "Completed",
       github: "https://github.com/gokul6350/ArduinoSerial2",
     },
     {
       title: "Hospital Management Dashboard",
       description: "Healthcare management application for streamlining patient care and hospital operations.",
-      tags: ["Flask", "python", "sql","Web App"],
+      tags: ["Flask", "python", "sql", "Web App"],
       status: "Completed",
       github: null,
     },
     {
       title: "Campus Go",
       description: "A comprehensive campus management and navigation system for students and faculty.",
-      tags: ["React", "Node.js", "React native","Mobile App"],
+      tags: ["React", "Node.js", "React native", "Mobile App"],
       status: "In Progress",
       github: null,
     },
     {
       title: "Invoice Scanner System",
       description: "Invoice Scanner System is a web-based application designed for Industries to capture, process, and store invoice data from different vendors & Manage them.",
-      tags: ["React", "Node.js", "React native","Mobile App"],
+      tags: ["React", "Node.js", "React native", "Mobile App"],
       status: "In Progress",
       github: null,
     },
@@ -135,7 +135,7 @@ export function PortfolioPage() {
       tags: ["Python", "PyTorch", "Reinforcement Learning", "Neural Networks", "AI", "Game Development"],
       status: "Completed",
       github: "https://github.com/gokul6350/SNAKE-AI",
-    },    
+    },
   ]
 
   return (
@@ -150,8 +150,8 @@ export function PortfolioPage() {
         >
           <span className="animate-pulse">🚀</span>
           {" Currently working on "}
-          <a href="#" className="text-primary font-medium hover:underline">
-            Deep shell
+          <a href="https://github.com/gokul6350/gnx-cli" className="text-primary font-medium hover:underline">
+            gnx-cli
           </a>{" "}
           <span className="animate-pulse">🚀</span>
         </motion.div>
@@ -308,7 +308,7 @@ export function PortfolioPage() {
                         <h3 className="font-semibold">Deep shell</h3>
                       </div>
                       <p className="text-sm text-muted-foreground">
-                      Deep Shell is an intelligent terminal application that combines a chat interface with a command-line interface, It helps users execute terminal commands through natural language conversations.
+                        Deep Shell is an intelligent terminal application that combines a chat interface with a command-line interface, It helps users execute terminal commands through natural language conversations.
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -437,11 +437,10 @@ export function PortfolioPage() {
                           <div className="flex items-center gap-2">
                             <Badge
                               variant={project.status === "In Progress" ? "default" : "secondary"}
-                              className={`${
-                                project.status === "In Progress"
-                                  ? "bg-amber-100/80 text-amber-800 hover:bg-amber-100"
-                                  : "bg-green-100/80 text-green-800 hover:bg-green-100"
-                              } border-0`}
+                              className={`${project.status === "In Progress"
+                                ? "bg-amber-100/80 text-amber-800 hover:bg-amber-100"
+                                : "bg-green-100/80 text-green-800 hover:bg-green-100"
+                                } border-0`}
                             >
                               {project.status}
                             </Badge>

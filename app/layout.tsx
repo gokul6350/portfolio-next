@@ -22,6 +22,25 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.ico',
   },
+  applicationName: 'Gokulbarath Portfolio',
+  authors: [{ name: 'Gokulbarath' }],
+  keywords: ['robotics', 'AI', 'machine learning', 'python', 'automation', 'developer', 'portfolio'],
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://gokulbarath.is-a.dev',
+    siteName: 'Gokulbarath Portfolio',
+    title: 'Gokulbarath - Robotics & AI Developer',
+    description: 'Portfolio of Gokulbarath - A passionate Robotics, AI, and ML developer.',
+    images: [
+      {
+        url: 'https://avatars.githubusercontent.com/u/64578167?v=4',
+        width: 800,
+        height: 600,
+        alt: 'Gokulbarath Profile',
+      }
+    ],
+  },
   verification: {
     google: 'rBRuGO1Cm1PRYSWNaunCsSkoMd84Tetqw914_NKfV1Q',
   },
