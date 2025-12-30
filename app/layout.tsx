@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://gokulbarath.is-a.dev'),
   title: "Gokulbarath - Robotics & AI Developer",
   description: "Portfolio of Gokulbarath - A passionate Robotics, AI, and ML developer building the future of automation and intelligent systems.",
+  icons: {
+    icon: '/favicon.ico',
+  },
   verification: {
     google: 'rBRuGO1Cm1PRYSWNaunCsSkoMd84Tetqw914_NKfV1Q',
   },
