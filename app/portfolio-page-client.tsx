@@ -14,6 +14,7 @@ import {
   Instagram,
   ExternalLink,
   Lock,
+  Star,
 
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -55,6 +56,7 @@ export function PortfolioPage() {
       description: "🤖 The Next-Gen AI Agent. Unlike normal agents, it goes beyond text and can control your Desktop & Android.",
       tags: ["Python", "AI", "CLI", "Automation", "Desktop Control", "Android Control"],
       status: "Completed",
+      video: "https://github.com/user-attachments/assets/bec3e8a0-30ce-4096-829c-8e6ca0fb33cd",
       github: "https://github.com/gokul6350/GNX-CLI",
     },
     {
@@ -62,6 +64,7 @@ export function PortfolioPage() {
       description: "EduVid-LLM: A Planning-Centric Architecture for Automated Educational Video Generation.",
       tags: ["Python", "LLM", "Planning", "Video Generation", "AI", "Education"],
       status: "Completed",
+      video: "https://github.com/user-attachments/assets/9c2cba07-9997-4bce-9d6f-346b88fc006e",
       github: "https://github.com/gokul6350/EduVid-LLM",
     },
     {
@@ -69,6 +72,8 @@ export function PortfolioPage() {
       description: "A intelligent terminal application that combines a chat interface with a command-line interface, It helps users execute terminal commands through natural language conversations.",
       tags: ["Python", "CLI", "System Programming", "Shell", "Ai", "Software"],
       status: "Completed",
+      stars: 27,
+      image: "https://github.com/gokul6350/dsh-shell/blob/main/screen_shots/Screenshot%202025-01-11%20010517.png?raw=true",
       github: "https://github.com/gokul6350/dsh-shell",
     },
     {
@@ -77,6 +82,7 @@ export function PortfolioPage() {
         "An advanced robotics project utilizing computer vision and LLms for precise arm control.",
       tags: ["Python", "OpenCV", "flask", "Arduino", "Robotics", "AI", "cobot "],
       status: "Completed",
+      image: "https://img.youtube.com/vi/qv3bFhHoA5s/0.jpg",
       github: "https://github.com/gokul6350/ARMv6",
     },
     {
@@ -92,6 +98,7 @@ export function PortfolioPage() {
       description: "An interactive simulation of a 2-degree-of-freedom robotic arm allowing users to control and visualize movements.",
       tags: ["Python", "Robotics", "Simulation", "Control Systems", "Physics"],
       status: "Completed",
+      image: "https://github.com/gokul6350/Interactive-2DOF-Arm-Sim/blob/94a67eacf617863e3f9b1441c0295aca09967644/controls.png?raw=true",
       github: "https://github.com/gokul6350/Interactive-2DOF-Arm-Sim",
     },
     {
@@ -405,14 +412,23 @@ export function PortfolioPage() {
                     className="h-full"
                   >
                     <Card className="h-full flex flex-col overflow-hidden group">
-                      {project.video && (
+                      {project.video ? (
                         <div className="aspect-video relative overflow-hidden bg-muted">
                           <video
                             src={project.video}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             muted
                             loop
-                            onMouseEnter={(e) => e.currentTarget.play()}
+                            playsInline
+                            key={project.video}
+                            onMouseEnter={(e) => {
+                              const playPromise = e.currentTarget.play();
+                              if (playPromise !== undefined) {
+                                playPromise.catch(() => {
+                                  // Auto-play was prevented
+                                });
+                              }
+                            }}
                             onMouseLeave={(e) => {
                               e.currentTarget.pause()
                               e.currentTarget.currentTime = 0
@@ -424,17 +440,35 @@ export function PortfolioPage() {
                             </p>
                           </div>
                         </div>
+                      ) : project.image ? (
+                        <div className="aspect-video relative overflow-hidden bg-muted">
+                          <img
+                            src={project.image}
+                            alt={project.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        </div>
+                      ) : (
+                        <div className="h-1 bg-primary/20" />
                       )}
-                      <CardHeader className={project.video ? "p-4" : ""}>
-                        <div className="flex items-center justify-between">
-                          <CardTitle className="text-lg">{project.title}</CardTitle>
+                      <CardHeader className={(project.video || project.image) ? "p-4" : ""}>
+                        <div className="flex items-center justify-between mb-1">
+                          <div className="flex items-center gap-2">
+                            <CardTitle className="text-lg">{project.title}</CardTitle>
+                            {project.stars && (
+                              <Badge variant="outline" className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20 text-[10px] flex items-center gap-1">
+                                <Star className="h-3 w-3 fill-yellow-600" />
+                                {project.stars}
+                              </Badge>
+                            )}
+                          </div>
                           <div className="flex items-center gap-2">
                             <Badge
                               variant={project.status === "In Progress" ? "default" : "secondary"}
                               className={`${project.status === "In Progress"
                                 ? "bg-amber-100/80 text-amber-800 hover:bg-amber-100"
                                 : "bg-green-100/80 text-green-800 hover:bg-green-100"
-                                } border-0`}
+                                } border-0 text-[10px]`}
                             >
                               {project.status}
                             </Badge>
