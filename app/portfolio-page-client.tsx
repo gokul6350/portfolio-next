@@ -268,18 +268,18 @@ export function PortfolioPage() {
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
                         <Badge variant="default">Active Project</Badge>
-                        <h3 className="font-semibold">Deep shell</h3>
+                        <h3 className="font-semibold">GNX CLI</h3>
                       </div>
                       <p className="text-sm text-muted-foreground">
-                        Deep Shell is an intelligent terminal application that combines a chat interface with a command-line interface, It helps users execute terminal commands through natural language conversations.
+                        🤖 The Next-Gen AI Agent. Unlike normal agents, it goes beyond text and can control your Desktop & Android.
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="secondary">Python</Badge>
+                      <Badge variant="secondary">AI</Badge>
                       <Badge variant="secondary">CLI</Badge>
-                      <Badge variant="secondary">System Programming</Badge>
-                      <Badge variant="secondary">Shell</Badge>
-                      <Badge variant="secondary">Ai</Badge>
+                      <Badge variant="secondary">Automation</Badge>
+                      <Badge variant="secondary">Desktop Control</Badge>
                     </div>
                   </div>
                 </CardContent>
