@@ -51,6 +51,20 @@ export function PortfolioPage() {
 
   const projects = [
     {
+      title: "GNX-CLI",
+      description: "🤖 The Next-Gen AI Agent. Unlike normal agents, it goes beyond text and can control your Desktop & Android.",
+      tags: ["Python", "AI", "CLI", "Automation", "Desktop Control", "Android Control"],
+      status: "In Progress",
+      github: "https://github.com/gokul6350/GNX-CLI",
+    },
+    {
+      title: "EduVid-LLM",
+      description: "EduVid-LLM: A Planning-Centric Architecture for Automated Educational Video Generation.",
+      tags: ["Python", "LLM", "Planning", "Video Generation", "AI", "Education"],
+      status: "Completed",
+      github: "https://github.com/gokul6350/EduVid-LLM",
+    },
+    {
       title: "Deep shell",
       description: "A intelligent terminal application that combines a chat interface with a command-line interface, It helps users execute terminal commands through natural language conversations.",
       tags: ["Python", "CLI", "System Programming", "Shell", "Ai", "Software"],
