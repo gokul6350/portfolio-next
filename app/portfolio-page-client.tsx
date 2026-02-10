@@ -299,9 +299,10 @@ export function PortfolioPage() {
             >
               <h2 className="text-2xl font-bold mb-8 text-center">GitHub Contributions</h2>
               <Card className="p-6">
-                <div className="overflow-x-auto">
+                <div className="flex justify-center overflow-x-auto">
                   <GitHubCalendar
                     username="gokul6350"
+                    colorScheme={isDark ? "dark" : "light"}
                     theme={{
                       light: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
                       dark: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
