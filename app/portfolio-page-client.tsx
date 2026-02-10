@@ -54,7 +54,7 @@ export function PortfolioPage() {
       title: "GNX-CLI",
       description: "🤖 The Next-Gen AI Agent. Unlike normal agents, it goes beyond text and can control your Desktop & Android.",
       tags: ["Python", "AI", "CLI", "Automation", "Desktop Control", "Android Control"],
-      status: "In Progress",
+      status: "Completed",
       github: "https://github.com/gokul6350/GNX-CLI",
     },
     {
@@ -68,7 +68,7 @@ export function PortfolioPage() {
       title: "Deep shell",
       description: "A intelligent terminal application that combines a chat interface with a command-line interface, It helps users execute terminal commands through natural language conversations.",
       tags: ["Python", "CLI", "System Programming", "Shell", "Ai", "Software"],
-      status: "In Progress",
+      status: "Completed",
       github: "https://github.com/gokul6350/dsh-shell",
     },
     {
@@ -78,6 +78,13 @@ export function PortfolioPage() {
       tags: ["Python", "OpenCV", "flask", "Arduino", "Robotics", "AI", "cobot "],
       status: "Completed",
       github: "https://github.com/gokul6350/ARMv6",
+    },
+    {
+      title: "Interactive-2DOF-Arm-Sim",
+      description: "An interactive simulation of a 2-degree-of-freedom robotic arm allowing users to control and visualize movements.",
+      tags: ["Python", "Robotics", "Simulation", "Control Systems", "Physics"],
+      status: "Completed",
+      github: "https://github.com/gokul6350/Interactive-2DOF-Arm-Sim",
     },
     {
       title: "Portfolio-next",
@@ -93,27 +100,6 @@ export function PortfolioPage() {
       tags: ["Python", "Arduino", "Serial Communication", "PyPI", "Python Package"],
       status: "Completed",
       github: "https://github.com/gokul6350/ArduinoSerial2",
-    },
-    {
-      title: "Hospital Management Dashboard",
-      description: "Healthcare management application for streamlining patient care and hospital operations.",
-      tags: ["Flask", "python", "sql", "Web App"],
-      status: "Completed",
-      github: null,
-    },
-    {
-      title: "Campus Go",
-      description: "A comprehensive campus management and navigation system for students and faculty.",
-      tags: ["React", "Node.js", "React native", "Mobile App"],
-      status: "In Progress",
-      github: null,
-    },
-    {
-      title: "Invoice Scanner System",
-      description: "Invoice Scanner System is a web-based application designed for Industries to capture, process, and store invoice data from different vendors & Manage them.",
-      tags: ["React", "Node.js", "React native", "Mobile App"],
-      status: "In Progress",
-      github: null,
     },
     {
       title: "Snake AI",
