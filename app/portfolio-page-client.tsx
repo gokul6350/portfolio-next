@@ -108,6 +108,14 @@ export function PortfolioPage() {
       status: "Completed",
       github: "https://github.com/gokul6350/SNAKE-AI",
     },
+    {
+      title: "ROS2-Arduino Servo Control",
+      description: "Controlling servos using ROS2 and Rviz with Arduino integration for precise robotic motion.",
+      tags: ["ROS2", "Arduino", "Rviz", "Robotics", "C++", "Simulation"],
+      status: "Completed",
+      video: "/Controlling Servos using ROS-Rviz #ros2 #arduino.mp4",
+      github: "https://github.com/gokul6350/ros2-arduino-servo",
+    },
   ]
 
   return (
@@ -241,15 +249,15 @@ export function PortfolioPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
                       <p className="text-sm text-muted-foreground">Total Stars</p>
-                      <p className="text-2xl font-bold">42</p>
+                      <p className="text-2xl font-bold">64</p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-sm text-muted-foreground">Repositories</p>
-                      <p className="text-2xl font-bold">35</p>
+                      <p className="text-2xl font-bold">36</p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-sm text-muted-foreground">Commits</p>
-                      <p className="text-2xl font-bold">486</p>
+                      <p className="text-sm text-muted-foreground">Total Commits</p>
+                      <p className="text-2xl font-bold">1241</p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-sm text-muted-foreground">Pull Requests</p>
@@ -391,11 +399,33 @@ export function PortfolioPage() {
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0, transition: { delay: index * 0.1 } }}
-                    custom={index}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    className="h-full"
                   >
-                    <Card className="h-full flex flex-col">
-                      <CardHeader>
+                    <Card className="h-full flex flex-col overflow-hidden group">
+                      {project.video && (
+                        <div className="aspect-video relative overflow-hidden bg-muted">
+                          <video
+                            src={project.video}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            muted
+                            loop
+                            onMouseEnter={(e) => e.currentTarget.play()}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.pause()
+                              e.currentTarget.currentTime = 0
+                            }}
+                          />
+                          <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                            <p className="text-[10px] text-white flex items-center gap-1">
+                              <ExternalLink className="h-3 w-3" /> Hover to play
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                      <CardHeader className={project.video ? "p-4" : ""}>
                         <div className="flex items-center justify-between">
                           <CardTitle className="text-lg">{project.title}</CardTitle>
                           <div className="flex items-center gap-2">
@@ -438,7 +468,7 @@ export function PortfolioPage() {
                       <CardContent className="flex-grow">
                         <div className="flex flex-wrap gap-2">
                           {project.tags.map((tag, tagIndex) => (
-                            <Badge key={tagIndex} variant="outline">
+                            <Badge key={tagIndex} variant="outline" className="text-[10px]">
                               {tag}
                             </Badge>
                           ))}
