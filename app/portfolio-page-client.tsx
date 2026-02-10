@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import {
   Moon,
   Sun,
@@ -15,6 +15,8 @@ import {
   ExternalLink,
   Lock,
   Star,
+  X,
+  Play,
 
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -28,6 +30,7 @@ const GitHubCalendar = dynamic(() => import("react-github-calendar"), { ssr: fal
 
 export function PortfolioPage() {
   const [isDark, setIsDark] = useState(false)
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
 
 
 
@@ -413,7 +416,10 @@ export function PortfolioPage() {
                   >
                     <Card className="h-full flex flex-col overflow-hidden group">
                       {project.video ? (
-                        <div className="aspect-video relative overflow-hidden bg-muted">
+                        <div
+                          className="aspect-video relative overflow-hidden bg-muted cursor-pointer"
+                          onClick={() => setSelectedVideo(project.video)}
+                        >
                           <video
                             src={project.video}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -434,9 +440,12 @@ export function PortfolioPage() {
                               e.currentTarget.currentTime = 0
                             }}
                           />
-                          <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-between">
                             <p className="text-[10px] text-white flex items-center gap-1">
-                              <ExternalLink className="h-3 w-3" /> Hover to play
+                              <ExternalLink className="h-3 w-3" /> Hover to preview
+                            </p>
+                            <p className="text-[10px] text-white flex items-center gap-1">
+                              <Play className="h-3 w-3 fill-white" /> Click to play
                             </p>
                           </div>
                         </div>
@@ -556,6 +565,47 @@ export function PortfolioPage() {
             </p>
           </div>
         </footer>
+
+        {/* Video Modal */}
+        <AnimatePresence>
+          {selectedVideo && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedVideo(null)}
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 md:p-8 backdrop-blur-md"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                className="relative max-w-6xl w-full bg-background rounded-2xl overflow-hidden shadow-2xl border"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="absolute top-4 right-4 z-10 flex gap-2">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-full bg-black/20 hover:bg-black/40 text-white backdrop-blur-md transition-all sm:h-10 sm:w-10 h-8 w-8 shadow-lg"
+                    onClick={() => setSelectedVideo(null)}
+                  >
+                    <X className="sm:h-6 sm:w-6 h-5 w-5" />
+                  </Button>
+                </div>
+                <div className="bg-black flex items-center justify-center">
+                  <video
+                    src={selectedVideo}
+                    className="w-full h-auto max-h-[85vh] shadow-2xl"
+                    controls
+                    autoPlay
+                    playsInline
+                  />
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Scroll Indicator */}
         <motion.div
