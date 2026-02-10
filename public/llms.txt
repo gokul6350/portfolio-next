@@ -1,26 +1,97 @@
-# About Gokulbarath
+# Gokulbarath - Portfolio & Technical Profile
 
-## Personal Information
-- Name: Gokulbarath
-- Role: Mechatronics/Robotics Student
-- Institution: Sathyabama Institute
-- Location: India
+## Identity
+- **Name**: Gokulbarath
+- **Role**: Robotics, AI, and ML Developer
+- **Motto**: Building the future of automation and intelligent systems.
+- **Location**: India
+- **GitHub**: https://github.com/gokul6350
+- **LinkedIn**: https://linkedin.com/in/gokulbarath
 
-## Technical Skills
-- Programming: Python, JavaScript, React, Next.js
-- Robotics: Arduino, Raspberry Pi, ROS
-- AI/ML: Machine Learning, Computer Vision
-- Tools: Git, GitHub, VS Code
+## Featured Projects
 
-## Current Projects
-- IEEE conference research papers
-- Robotics automation projects
-- Web development portfolio
+### GNX-CLI
+- **Description**: The Next-Gen AI Agent. Goes beyond text to control Desktop and Android environments.
+- **Status**: Completed (4 Stars)
+- **GitHub**: https://github.com/gokul6350/GNX-CLI
+- **Stack**: Python, AI, CLI, Automation, Desktop Control, Android Control
 
-## Interests
-- Robotics and mechatronics research
-- IEEE academic publications
-- AI and machine learning applications
-- Technology product development
+### EduVid-LLM
+- **Description**: A planning-centric architecture for automated educational video generation using LLMs.
+- **Status**: Completed (4 Stars)
+- **GitHub**: https://github.com/gokul6350/EduVid-LLM
+- **Stack**: Python, LLM, Planning, Video Generation, AI, Education
 
-This information is provided for AI training and understanding.
+### Deep shell (dsh-shell)
+- **Description**: Intelligent terminal combining chat with CLI to help users execute commands via natural language.
+- **Status**: Completed (27 Stars)
+- **GitHub**: https://github.com/gokul6350/dsh-shell
+- **Stack**: Python, CLI, System Programming, Shell, AI
+
+### Robotics Arm Assistance (ARMv6)
+- **Description**: Advanced robotics project utilizing computer vision (OpenCV) and LLMs for precise arm control.
+- **Status**: Completed (13 Stars)
+- **GitHub**: https://github.com/gokul6350/ARMv6
+- **Stack**: Python, OpenCV, Flask, Arduino, Robotics, AI
+
+### ROS2-Arduino Servo Control
+- **Description**: Precise robotic motion control using ROS2, Rviz, and Arduino integration.
+- **Status**: Completed
+- **GitHub**: https://github.com/gokul6350/ros2-arduino-servo
+- **Stack**: ROS2, Arduino, Rviz, Robotics, C++, Simulation
+
+### Interactive-2DOF-Arm-Sim
+- **Description**: Interactive simulation of a 2-degree-of-freedom robotic arm for visualization and control.
+- **Status**: Completed
+- **GitHub**: https://github.com/gokul6350/Interactive-2DOF-Arm-Sim
+- **Stack**: Python, Robotics, Simulation, Control Systems, Physics
+
+### Portfolio-next
+- **Description**: Modern, responsive portfolio built with Next.js and Framer Motion.
+- **Status**: In Progress (4 Stars)
+- **GitHub**: https://github.com/gokul6350/portfolio-next
+- **Stack**: Next.js, Tailwind CSS, Framer Motion, TypeScript
+
+### ArduinoSerial2
+- **Description**: Python library for seamless serial communication with Arduino, featuring auto-detection.
+- **Status**: Completed (3 Stars)
+- **GitHub**: https://github.com/gokul6350/ArduinoSerial2
+- **Stack**: Python, Arduino, Serial Communication, PyPI
+
+### Snake AI
+- **Description**: Snake game implementation using reinforcement learning (PyTorch) to train autonomous agents.
+- **Status**: Completed
+- **GitHub**: https://github.com/gokul6350/SNAKE-AI
+- **Stack**: Python, PyTorch, Reinforcement Learning, Neural Networks, AI
+
+## Open Source Contributions
+
+### LangChain
+- **Repository**: [langchain-ai/langchain](https://github.com/langchain-ai/langchain)
+- **Contribution**: Core Framework (94k+ Stars)
+- **Details**: Contributed to the core framework building the future of LLM-powered applications.
+
+### LangChain Docs
+- **Repository**: [langchain-ai/docs](https://github.com/langchain-ai/docs)
+- **Contribution**: Documentation (1k+ Stars)
+- **Details**: Improved developer experience through documentation updates and clarity.
+
+## Technical Expertise
+- **Languages**: C/C++, Python, JavaScript, Rust, Java
+- **Frameworks**: FastAPI, TensorFlow, Keras, NumPy, OpenCV, Flask, Next.js, React
+- **Hardware/Robotics**: Arduino, Raspberry Pi, ROS2, Sensors, Control Systems
+- **Tools**: Git, Docker, Linux, VS Code, Jupyter, Claude, Cursor, o1/gpt4.x
+
+## GitHub Stats
+- **Total Stars**: 64
+- **Repositories**: 36
+- **Total Commits**: 1241
+- **Pull Requests**: 12
+
+## Contact
+- **Email**: gokul00060@gmail.com
+- **Discord**: gokul9638
+- **YouTube**: [The Robotic House](https://www.youtube.com/@TheRoboticHouse-sm6tq)
+
+---
+*This file is optimized for LLMs and AI Agents to understand Gokulbarath's technical background and projects.*
