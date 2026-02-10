@@ -133,6 +133,23 @@ export function PortfolioPage() {
     },
   ]
 
+  const ossContributions = [
+    {
+      project: "LangChain",
+      url: "https://github.com/langchain-ai/langchain",
+      description: "Contributed to the core LangChain framework, helping build the future of LLM-powered applications.",
+      impact: "Core Framework",
+      stars: "94k+"
+    },
+    {
+      project: "LangChain Docs",
+      url: "https://github.com/langchain-ai/docs",
+      description: "Improved and updated documentation for better developer experience and clarity.",
+      impact: "Documentation",
+      stars: "1k+"
+    },
+  ]
+
   return (
     <div className={`min-h-screen ${isDark ? "dark" : ""}`}>
       <div className="bg-background text-foreground">
@@ -160,6 +177,9 @@ export function PortfolioPage() {
               </a>
               <a href="#projects" className="text-muted-foreground hover:text-primary">
                 Projects
+              </a>
+              <a href="#oss" className="text-muted-foreground hover:text-primary">
+                OSS
               </a>
               <a href="#about" className="text-muted-foreground hover:text-primary">
                 About
@@ -520,6 +540,62 @@ export function PortfolioPage() {
                               {tag}
                             </Badge>
                           ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Open Source Section */}
+        <section className="border-t bg-muted/40" id="oss">
+          <div className="max-w-6xl mx-auto px-4 py-20">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-2xl font-bold mb-8 text-center">Open Source Contributions</h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                {ossContributions.map((contribution, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    whileHover={{ y: -5 }}
+                  >
+                    <Card className="h-full border-primary/10 hover:border-primary/30 transition-colors shadow-sm cursor-pointer" onClick={() => window.open(contribution.url, "_blank")}>
+                      <CardHeader className="pb-2">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 bg-primary/10 rounded-lg">
+                              <Github className="h-5 w-5 text-primary" />
+                            </div>
+                            <CardTitle className="text-xl">{contribution.project}</CardTitle>
+                          </div>
+                          <Badge variant="outline" className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20">
+                            <Star className="h-3 w-3 mr-1 fill-yellow-600" />
+                            {contribution.stars}
+                          </Badge>
+                        </div>
+                        <CardDescription className="text-base leading-relaxed">
+                          {contribution.description}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex items-center gap-2 text-sm font-medium text-primary">
+                          <Badge variant="default" className="bg-primary/20 text-primary hover:bg-primary/30 border-0">
+                            {contribution.impact}
+                          </Badge>
+                          <span className="flex items-center gap-1 ml-auto text-muted-foreground group">
+                            View on GitHub <ExternalLink className="h-3 w-3" />
+                          </span>
                         </div>
                       </CardContent>
                     </Card>
