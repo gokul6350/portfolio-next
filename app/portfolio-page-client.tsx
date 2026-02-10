@@ -80,6 +80,14 @@ export function PortfolioPage() {
       github: "https://github.com/gokul6350/ARMv6",
     },
     {
+      title: "ROS2-Arduino Servo Control",
+      description: "Controlling servos using ROS2 and Rviz with Arduino integration for precise robotic motion.",
+      tags: ["ROS2", "Arduino", "Rviz", "Robotics", "C++", "Simulation"],
+      status: "Completed",
+      video: "/ros2-arduino-servo.mp4",
+      github: "https://github.com/gokul6350/ros2-arduino-servo",
+    },
+    {
       title: "Interactive-2DOF-Arm-Sim",
       description: "An interactive simulation of a 2-degree-of-freedom robotic arm allowing users to control and visualize movements.",
       tags: ["Python", "Robotics", "Simulation", "Control Systems", "Physics"],
@@ -107,14 +115,6 @@ export function PortfolioPage() {
       tags: ["Python", "PyTorch", "Reinforcement Learning", "Neural Networks", "AI", "Game Development"],
       status: "Completed",
       github: "https://github.com/gokul6350/SNAKE-AI",
-    },
-    {
-      title: "ROS2-Arduino Servo Control",
-      description: "Controlling servos using ROS2 and Rviz with Arduino integration for precise robotic motion.",
-      tags: ["ROS2", "Arduino", "Rviz", "Robotics", "C++", "Simulation"],
-      status: "Completed",
-      video: "/Controlling Servos using ROS-Rviz #ros2 #arduino.mp4",
-      github: "https://github.com/gokul6350/ros2-arduino-servo",
     },
   ]
 
