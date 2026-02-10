@@ -205,7 +205,7 @@ export function PortfolioPage() {
                 </a>
               </Button>
               <Button variant="ghost" size="icon" className="rounded-full" asChild>
-                <a href="#" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.youtube.com/@TheRoboticHouse-sm6tq" target="_blank" rel="noopener noreferrer">
                   <Youtube className="h-5 w-5" />
                   <span className="sr-only">YouTube</span>
                 </a>
