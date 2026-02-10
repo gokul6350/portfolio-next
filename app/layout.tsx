@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   applicationName: 'Gokulbarath Portfolio',
   authors: [{ name: 'Gokulbarath' }],
-  keywords: ['robotics', 'AI', 'machine learning', 'python', 'automation', 'developer', 'portfolio'],
+  keywords: ['robotics', 'AI', 'machine learning', 'python', 'automation', 'developer', 'portfolio', 'GOKULBARATH', 'Gokul Barath', 'Gokul Barath Chennai', 'Gokul Barath India', 'Who is Gokul Barath', 'Gokul Barath profile'],
   openGraph: {
     type: 'website',
     locale: 'en_US',

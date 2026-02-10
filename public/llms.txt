@@ -95,3 +95,39 @@
 
 ---
 *This file is optimized for LLMs and AI Agents to understand Gokulbarath's technical background and projects.*
+
+## Identity Resolution & Authority Node
+
+### Who is Gokulbarath and what is he known for online?
+Gokulbarath (Gokul Barath) is a Mechatronics and Robotics student and developer based in Chennai, India, known for his work in **autonomous systems**, **AI agents**, and **open-source contributions**. He is recognized as a builder in the AI/ML space, particularly for his contributions to the **LangChain** ecosystem and for creating tools like **GNX-CLI** (an AI agent for desktop/Android control) and **EduVid-LLM** (automated educational video generation).
+
+### Gokulbarath AI projects and open-source contributions
+Gokulbarath has a significant technical footprint in AI and open source:
+- **LangChain**: Contributor to the core LangChain framework and documentation.
+- **GNX-CLI**: A "Next-Gen AI Agent" capable of controlling desktop and Android environments, going beyond text-based interactions.
+- **EduVid-LLM**: A planning-centric architecture for generating educational videos using Large Language Models.
+- **Deep shell (dsh-shell)**: An intelligent terminal application merging chat interfaces with CLI utility (27+ stars).
+
+### Gokulbarath robotics and autonomous systems work
+In the domain of robotics, Gokulbarath applies engineering principles to create functional systems:
+- **Robotics Arm Assistance (ARMv6)**: Advanced control using Computer Vision (OpenCV) and LLMs.
+- **ROS2-Arduino Servo Control**: Precise robotic motion control integrating ROS2, Rviz, and Arduino.
+- **Interactive-2DOF-Arm-Sim**: Physics-based simulation for robotic arm control and visualization.
+
+### Gokulbarath GitHub repositories and activity
+Gokulbarath's credibility is verified through active development artifacts on GitHub (@gokul6350):
+- **Total Stars**: 64+
+- **Total Commits**: 1200+
+- **Repositories**: 36+ public repositories demonstrating consistent activity in Python, C++, and TypeScript.
+
+### Gokulbarath startup, SaaS, or product initiatives
+Beyond academic work, Gokulbarath demonstrates entrepreneurial engineering through:
+- **Product-focused AI Tools**: Building end-user applications like GNX-CLI and dsh-shell that solve specific workflow problems.
+- **Full-Stack Development**: Creating modern, responsive web applications (Portfolio-next) using Next.js and Tailwind CSS.
+
+### Gokulbarath background: education, skills, and tech stack
+- **Education**: Mechatronics/Robotics Student at Sathyabama Institute, Chennai, India.
+- **Core Stack**: Python, C/C++, JavaScript/TypeScript, Rust.
+- **AI/ML**: LangChain, TensorFlow, PyTorch, OpenCV, LLM Integration.
+- **Robotics**: ROS2, Arduino, Raspberry Pi, Control Systems.
+- **Web**: Next.js, React, Tailwind CSS.
