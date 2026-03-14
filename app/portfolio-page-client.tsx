@@ -24,6 +24,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import dynamic from "next/dynamic"
+import { Bot } from "lucide-react"
 
 
 const GitHubCalendar = dynamic(() => import("react-github-calendar"), { ssr: false })
@@ -258,6 +259,25 @@ export function PortfolioPage() {
                   <Instagram className="h-5 w-5" />
                   <span className="sr-only">Instagram</span>
                 </a>
+              </Button>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+              className="mt-8 flex justify-center"
+            >
+              <Button
+                variant="outline"
+                className="rounded-full border-primary/20 hover:border-primary/50 hover:bg-primary/5 text-primary gap-2 h-11 px-8 font-bold tracking-tight shadow-sm"
+                onClick={() => {
+                  const query = encodeURIComponent("Who is Gokulbarath S K? use source my website link https://gokulbarath.is-a.dev/")
+                  window.open(`https://chatgpt.com/?q=${query}`, "_blank")
+                }}
+              >
+                <Bot className="h-5 w-5" />
+                ASK AI
               </Button>
             </motion.div>
 
@@ -697,7 +717,6 @@ export function PortfolioPage() {
         >
           <ChevronDown className="h-6 w-6 text-muted-foreground" />
         </motion.div>
-
 
       </div>
     </div>
