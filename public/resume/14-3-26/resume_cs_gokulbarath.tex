@@ -1,0 +1,202 @@
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[colorlinks=true, urlcolor=ResumeBlue, linkcolor=ResumeBlue]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+
+%----------FONT OPTIONS----------
+% sans-serif
+% \usepackage[sfdefault]{FiraSans}
+% \usepackage[sfdefault]{roboto}
+% \usepackage[sfdefault]{noto-sans}
+% \usepackage[default]{sourcesanspro}
+
+% serif
+% \usepackage{CormorantGaramond}
+% \usepackage{charter}
+
+\definecolor{ResumeBlue}{RGB}{20, 110, 200}
+\definecolor{ResumeGray}{RGB}{162,162,165}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large\color{ResumeBlue}
+}{}{0em}{}[\color{ResumeBlue}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \color{ResumeGray}#2 \\
+      \textit{\small#3} & \color{ResumeGray}\textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Gokulbarath SK} \\ \vspace{2pt}
+    \small Chennai, India $|$ \href{mailto:gokul00060@gmail.com}{\underline{gokul00060@gmail.com}} $|$ 
+    \href{https://gokulbarath.is-a.dev}{\underline{gokulbarath.is-a.dev}} \\ \vspace{2pt}
+    \small GitHub: \href{https://github.com/gokul6350}{\underline{gokul6350}} $|$ LinkedIn: \href{https://linkedin.com/in/gokulbarath}{\underline{gokulbarath}}
+\end{center}
+
+
+%-----------PROFILE-----------
+\section{Profile}
+    \small{Passionate AI and ML developer dedicated to building intelligent systems and agentic workflows. Third-year Mechatronics Engineering student with hands-on experience in Large Language Models (LLMs), Model Context Protocol (MCP), and software integration. Focused on developing practical, AI-powered tools that leverage modern frameworks to solve complex problems through intelligent automation.}
+    
+    \vspace{2pt}
+    \small{\textbf{Total 64 GitHub Stars} across all repositories}
+    \vspace{7pt}
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Sathyabama Institute of Science \& Technology}{Chennai, India}
+      {Bachelor of Engineering in Mechatronics Engineering}{June 2023 -- May 2027}
+    \resumeSubheading
+      {Bright International School}{Ahmedabad, Gujarat}
+      {Higher Secondary Education (CBSE)}{2021 -- 2023}
+    \resumeSubheading
+      {Delhi Public School}{Gandhinagar, Gujarat}
+      {Secondary Education (CBSE)}{Mar. 2021}
+  \resumeSubHeadingListEnd
+
+
+%-----------OPEN SOURCE-----------
+\section{Open Source Contributions}
+  \resumeSubHeadingListStart
+    \resumeProjectHeading
+      {\textbf{LangChain} $|$ \href{https://github.com/gokul6350?tab=overview\&org=langchain-ai}{\emph{Ecosystem Contributor}}}{}
+      \resumeItemListStart
+        \resumeItem{Identified missing Groq vision support (issue \#34589) and authored PR \#2259 in langchain-ai/docs, adding the complete Vision + multimodal section (now live in official docs). Enables seamless adoption of vision-capable models like Llama-4 Scout/Maverick.}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+
+%-----------PROJECTS-----------
+\section{Selected Projects}
+    \resumeSubHeadingListStart
+      \resumeProjectHeading
+          {\textbf{Deep Shell} $|$ \emph{Python, CLI Development, NLP} $|$ 27 Stars}{\href{https://gokulbarath.is-a.dev/\#projects}{GitHub}}
+          \resumeItemListStart
+            \resumeItem{Intelligent terminal application that uses natural language processing to interpret and execute shell commands.}
+            \resumeItem{Features integrated chat interface enabling users to interact with their system using conversational AI.}
+          \resumeItemListEnd
+      \resumeProjectHeading
+          {\textbf{GNX CLI} $|$ \emph{Python, Groq, Large Language Models}}{\href{https://github.com/gokul6350/gnx-cli}{GitHub}}
+          \resumeItemListStart
+            \resumeItem{Developed a Next-Gen AI Agent that goes beyond text to control Desktop and Android environments.}
+            \resumeItem{Implements a modular, agentic architecture where a main controller drives memory retrieval and tool execution.}
+          \resumeItemListEnd
+      \resumeProjectHeading
+          {\textbf{EduVid-LLM} $|$ \emph{Python, Generative AI, LLMs}}{\href{https://gokulbarath.is-a.dev/\#projects}{GitHub}}
+          \resumeItemListStart
+            \resumeItem{Designed a planning-centric architecture for automated educational video generation.}
+            \resumeItem{Leverages LLMs to transform educational content into structured video scripts and visual assets.}
+          \resumeItemListEnd
+    \resumeSubHeadingListEnd
+    
+    \vspace{-5pt}
+    \small{Additional projects available at: \href{https://gokulbarath.is-a.dev/\#projects}{\underline{gokulbarath.is-a.dev/\#projects}}}
+
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Artificial Intelligence \& ML}{: Large Language Models (LLMs), Model Context Protocol (MCP), Agentic Workflows, Diffusion Models, OpenCV, Reinforcement Learning, PyTorch, TensorFlow} \\
+     \textbf{Programming Languages}{: Python, C/C++, JavaScript, TypeScript, Bash Scripting} \\
+     \textbf{Software Development}{: FastAPI, Flask, Next.js, React.js, Tailwind CSS, Git, SQL, Shell Scripting} \\
+     \textbf{Languages}{: English (Fluent), Tamil (Native), Hindi (Fluent), Gujarati (Fluent)}
+    }}
+ \end{itemize}
+
+
+%-----------CERTIFICATIONS-----------
+\section{Certifications \& Achievements}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Introduction to Deep Learning} -- Kaggle Learn \hfill Feb. 2024 \\
+     \textbf{CS50’s Introduction to Artificial Intelligence with Python} -- Harvard University \hfill Aug. 2023 
+    }}
+ \end{itemize}
+
+
+\end{document}

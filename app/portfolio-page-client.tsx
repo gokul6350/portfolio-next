@@ -17,6 +17,7 @@ import {
   Star,
   X,
   Play,
+  FileText,
 
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -652,6 +653,12 @@ export function PortfolioPage() {
                   <a href="https://discord.com/users/gokul9638" target="_blank" rel="noopener noreferrer">
                     Discord
                     <ExternalLink className="ml-2 h-4 w-4" />
+                  </a>
+                </Button>
+                <Button variant="outline" className="border-primary/20 hover:border-primary/50" asChild>
+                  <a href="/resume/14-3-26/resume_cs_gokulbarath.pdf" target="_blank" rel="noopener noreferrer">
+                    <FileText className="mr-2 h-4 w-4" />
+                    Download Resume
                   </a>
                 </Button>
               </div>
