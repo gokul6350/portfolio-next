@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useState, useRef, useEffect, type ReactNode } from "react"
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useInView } from "framer-motion"
 import {
   Moon,
   Sun,
@@ -32,6 +32,63 @@ import dynamic from "next/dynamic"
 
 const GitHubCalendar = dynamic(() => import("react-github-calendar"), { ssr: false })
 
+/** Card wrapper that tilts in 3D toward the cursor. */
+function TiltCard({ children, className }: { children: ReactNode; className?: string }) {
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [9, -9]), { stiffness: 200, damping: 18 })
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-9, 9]), { stiffness: 200, damping: 18 })
+
+  return (
+    <motion.div
+      onMouseMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect()
+        x.set((e.clientX - rect.left) / rect.width - 0.5)
+        y.set((e.clientY - rect.top) / rect.height - 0.5)
+      }}
+      onMouseLeave={() => {
+        x.set(0)
+        y.set(0)
+      }}
+      style={{ rotateX, rotateY, transformPerspective: 1000, transformStyle: "preserve-3d" }}
+      whileHover={{ scale: 1.03 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+/** Animates a number from 0 to `end` once it scrolls into view. */
+function CountUp({ end, suffix = "" }: { end: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-40px" })
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    if (!inView) return
+    const duration = 1400
+    const startTime = performance.now()
+    let raf = 0
+    const tick = (now: number) => {
+      const progress = Math.min((now - startTime) / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setCount(Math.round(eased * end))
+      if (progress < 1) raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [inView, end])
+
+  return (
+    <span ref={ref}>
+      {count}
+      {suffix}
+    </span>
+  )
+}
+
 export function PortfolioPage() {
   const [isDark, setIsDark] = useState(false)
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
@@ -46,18 +103,13 @@ export function PortfolioPage() {
 
   const projects = [
     {
-      title: "VVLLM",
-      category: "AI",
-      description: "Proprietary end-to-end multimodal AI inference engine with native Speech-to-Text, Text-to-Speech, and Vision-Language Model components using ONNX Runtime and Apple MLX for optimized on-device inference.",
-      tags: ["Python", "ONNX Runtime", "Apple MLX", "PyTorch", "Multimodal AI", "TTS", "STT"],
-      status: "Completed",
-    },
-    {
       title: "Real-Time Robotic Arm Control",
       category: "Robotics",
       description: "End-to-end ROS2 control pipeline driving a physical robotic arm in real time using MoveIt for motion planning, bridging ROS2 nodes to Arduino-controlled servos over serial for closed-loop feedback.",
       tags: ["ROS2", "MoveIt", "RViz", "Arduino", "C++", "Python"],
       status: "Completed",
+      youtube: "https://www.youtube.com/shorts/bANZ1SsLCBI",
+      image: "https://img.youtube.com/vi/bANZ1SsLCBI/0.jpg",
     },
     {
       title: "GNX-CLI",
@@ -88,6 +140,7 @@ export function PortfolioPage() {
       stars: 13,
       image: "https://img.youtube.com/vi/qv3bFhHoA5s/0.jpg",
       github: "https://github.com/gokul6350/ARMv6",
+      youtube: "https://youtu.be/qv3bFhHoA5s",
     },
     {
       title: "Deep Shell",
@@ -105,6 +158,8 @@ export function PortfolioPage() {
       description: "ROS2 package mapping RViz joint-state commands to Arduino servo actuation on a SCARA manipulator with URDF-defined joints, tf2 transforms, and a lightweight serial bridge for low-latency command streaming.",
       tags: ["ROS2", "RViz", "Arduino", "URDF", "robot_state_publisher"],
       status: "Completed",
+      youtube: "https://www.youtube.com/shorts/nRsmUxpuqEE",
+      image: "https://img.youtube.com/vi/nRsmUxpuqEE/0.jpg",
     },
     {
       title: "Custom Three.js URDF Visualizer",
@@ -112,6 +167,8 @@ export function PortfolioPage() {
       description: "Web-based 3D robot visualizer that parses URDF/Xacro and renders articulated robots in the browser via Three.js — a lightweight alternative to RViz with real-time joint updates and dual-camera views.",
       tags: ["Three.js", "JavaScript", "URDF", "Web Visualization", "Robotics"],
       status: "Completed",
+      youtube: "https://www.youtube.com/shorts/n-YctSnH2c4",
+      image: "https://img.youtube.com/vi/n-YctSnH2c4/0.jpg",
     },
     {
       title: "SCARA Robot Virtual Twin",
@@ -119,6 +176,8 @@ export function PortfolioPage() {
       description: "Virtual digital twin of a SCARA manipulator in RViz with accurate URDF kinematics and joint articulation for validating motion planning and workspace reachability before hardware deployment.",
       tags: ["ROS2", "RViz", "URDF", "Inverse Kinematics", "Digital Twin"],
       status: "Completed",
+      youtube: "https://www.youtube.com/shorts/2hGMvT4EN78",
+      image: "https://img.youtube.com/vi/2hGMvT4EN78/0.jpg",
     },
     {
       title: "ROS2-Arduino Servo Control",
@@ -135,6 +194,8 @@ export function PortfolioPage() {
       description: "Full robotic-arm simulation on ROS Noetic, modeling links and joints in URDF and validating motion in RViz, demonstrating cross-distro fluency between ROS1 (Noetic) and ROS2.",
       tags: ["ROS Noetic", "RViz", "URDF", "Simulation"],
       status: "Completed",
+      youtube: "https://www.youtube.com/shorts/4VXg4LLQsKM",
+      image: "https://img.youtube.com/vi/4VXg4LLQsKM/0.jpg",
     },
     {
       title: "Interactive 2-DOF Arm Sim",
@@ -178,16 +239,28 @@ export function PortfolioPage() {
       stars: 4,
       github: "https://github.com/gokul6350/portfolio-next",
     },
+    {
+      title: "VVLLM",
+      category: "AI",
+      description: "Proprietary end-to-end multimodal AI inference engine with native Speech-to-Text, Text-to-Speech, and Vision-Language Model components using ONNX Runtime and Apple MLX for optimized on-device inference.",
+      tags: ["Python", "ONNX Runtime", "Apple MLX", "PyTorch", "Multimodal AI", "TTS", "STT"],
+      status: "Completed",
+    },
   ]
 
-  const categories = ["All", "Robotics", "AI", "CS"]
+  const categories = ["All", "Robotics", "AI", "CS", "ROS"]
   const filteredProjects =
-    selectedCategory === "All" ? projects : projects.filter((p) => p.category === selectedCategory)
+    selectedCategory === "All"
+      ? projects
+      : selectedCategory === "ROS"
+      ? projects.filter((p) => p.tags.some((t) => t.toLowerCase().includes("ros")))
+      : projects.filter((p) => p.category === selectedCategory)
 
   const categoryStyles: Record<string, string> = {
     Robotics: "bg-blue-500/10 text-blue-600 border-blue-500/20",
     AI: "bg-purple-500/10 text-purple-600 border-purple-500/20",
     CS: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
+    ROS: "bg-orange-500/10 text-orange-600 border-orange-500/20",
   }
 
   const ossContributions = [
@@ -248,15 +321,6 @@ export function PortfolioPage() {
         "Studied real-world manufacturing processes and automated production line systems.",
       ],
     },
-    {
-      title: "Student Coordinator – Robotics Internship",
-      company: "SIST – Dept. of CSE (AI & Robotics)",
-      location: "Chennai, India",
-      period: "Aug. 2024",
-      bullets: [
-        "Led a robotics internship program, mentoring students on robotic system design, embedded programming, and ROS2 workflows.",
-      ],
-    },
   ]
 
   const education = [
@@ -293,9 +357,33 @@ export function PortfolioPage() {
 
   const SectionHeading = ({ title, subtitle }: { title: string; subtitle?: string }) => (
     <div className="text-center mb-12">
-      <h2 className="text-3xl font-bold tracking-tight">{title}</h2>
-      {subtitle && <p className="text-muted-foreground mt-2">{subtitle}</p>}
-      <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-gradient-to-r from-primary to-primary/30" />
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+        className="text-3xl font-bold tracking-tight"
+      >
+        {title}
+      </motion.h2>
+      {subtitle && (
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          viewport={{ once: true }}
+          className="text-muted-foreground mt-2"
+        >
+          {subtitle}
+        </motion.p>
+      )}
+      <motion.div
+        initial={{ width: 0 }}
+        whileInView={{ width: 64 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        viewport={{ once: true }}
+        className="mx-auto mt-4 h-1 rounded-full bg-gradient-to-r from-primary to-purple-500"
+      />
     </div>
   )
 
@@ -349,6 +437,17 @@ export function PortfolioPage() {
         {/* Hero Section */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
+          {/* Floating gradient orbs */}
+          <motion.div
+            className="pointer-events-none absolute top-10 -left-24 h-72 w-72 rounded-full bg-primary/20 blur-3xl -z-10"
+            animate={{ y: [0, 30, 0], x: [0, 20, 0] }}
+            transition={{ duration: 9, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="pointer-events-none absolute top-32 -right-24 h-80 w-80 rounded-full bg-purple-500/20 blur-3xl -z-10"
+            animate={{ y: [0, -30, 0], x: [0, -20, 0] }}
+            transition={{ duration: 11, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          />
           <div className="max-w-6xl mx-auto px-4 py-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -358,16 +457,25 @@ export function PortfolioPage() {
             >
               <div className="mb-8">
                 <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
                   transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                  className="mx-auto mb-6 w-36 h-36 rounded-full p-1 bg-gradient-to-tr from-primary via-primary/40 to-purple-500/40"
+                  className="mx-auto mb-6 w-36 h-36"
+                  style={{ perspective: 1000 }}
                 >
-                  <img
-                    src="https://avatars.githubusercontent.com/u/64578167?v=4"
-                    alt="Profile"
-                    className="w-full h-full rounded-full border-4 border-background object-cover"
-                  />
+                  <motion.div
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                    whileHover={{ rotateY: 18, rotateX: -12, scale: 1.06 }}
+                    style={{ transformStyle: "preserve-3d" }}
+                    className="w-full h-full rounded-full p-1 bg-gradient-to-tr from-primary via-primary/40 to-purple-500/40 shadow-xl shadow-primary/20"
+                  >
+                    <img
+                      src="https://avatars.githubusercontent.com/u/64578167?v=4"
+                      alt="Profile"
+                      className="w-full h-full rounded-full border-4 border-background object-cover"
+                    />
+                  </motion.div>
                 </motion.div>
                 <motion.h1
                   initial={{ opacity: 0 }}
@@ -476,7 +584,7 @@ export function PortfolioPage() {
                   className="rounded-full gap-2 h-11 px-8 font-bold tracking-tight shadow-sm"
                   asChild
                 >
-                  <a href="/resume/14-3-26/resume_cs_gokulbarath.pdf" target="_blank" rel="noopener noreferrer">
+                  <a href="/resume/14-3-26/resume_allinone_gokulbarath.pdf" target="_blank" rel="noopener noreferrer">
                     <FileText className="h-5 w-5" />
                     Resume
                   </a>
@@ -544,16 +652,36 @@ export function PortfolioPage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="relative pl-8">
-                      <div className="absolute left-[7px] top-1 bottom-1 w-px bg-gradient-to-b from-primary via-primary/40 to-transparent" />
+                    <div>
                       {education.map((edu, index) => (
-                        <div key={index} className="relative mb-6 last:mb-0">
-                          <div className="absolute -left-[27px] top-1 h-3.5 w-3.5 rounded-full bg-primary ring-4 ring-card" />
-                          <p className="font-medium text-sm">{edu.school}</p>
-                          <p className="text-sm text-muted-foreground">{edu.degree}</p>
-                          <p className="text-xs text-muted-foreground mt-0.5">
-                            {edu.period} · {edu.location}
-                          </p>
+                        <div key={index} className="flex gap-3">
+                          {/* Left column: dot + line */}
+                          <div className="flex flex-col items-center">
+                            <motion.div
+                              initial={{ scale: 0 }}
+                              whileInView={{ scale: [0, 1.3, 1] }}
+                              transition={{ delay: index * 0.1, duration: 0.3 }}
+                              viewport={{ once: true }}
+                              className="h-3.5 w-3.5 shrink-0 rounded-full bg-primary ring-4 ring-card mt-1 z-10"
+                            />
+                            {index < education.length - 1 && (
+                              <div className="w-px flex-1 my-1.5 bg-gradient-to-b from-primary/60 to-primary/10" />
+                            )}
+                          </div>
+                          {/* Right column: text */}
+                          <motion.div
+                            initial={{ opacity: 0, x: -8 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.1 + 0.05 }}
+                            viewport={{ once: true }}
+                            className={index < education.length - 1 ? "pb-5" : "pb-0"}
+                          >
+                            <p className="font-medium text-sm">{edu.school}</p>
+                            <p className="text-sm text-muted-foreground">{edu.degree}</p>
+                            <p className="text-xs text-muted-foreground mt-0.5">
+                              {edu.period} · {edu.location}
+                            </p>
+                          </motion.div>
                         </div>
                       ))}
                     </div>
@@ -631,46 +759,64 @@ export function PortfolioPage() {
               viewport={{ once: true }}
             >
               <SectionHeading title="Experience" subtitle="Roles, leadership & internships" />
-              <div className="relative max-w-3xl mx-auto pl-10">
-                {/* Timeline line */}
-                <div className="absolute left-[14px] top-2 bottom-2 w-0.5 bg-gradient-to-b from-primary via-primary/40 to-transparent" />
+              <div className="max-w-3xl mx-auto">
                 {experience.map((exp, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="relative mb-8 last:mb-0"
-                  >
-                    {/* Timeline dot */}
-                    <div className="absolute -left-[34px] top-3 flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 ring-4 ring-background">
-                      <Briefcase className="h-3.5 w-3.5 text-primary" />
+                  <div key={index} className="flex gap-5">
+                    {/* Left column: dot + connecting line */}
+                    <div className="flex flex-col items-center">
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        whileInView={{ scale: [0, 1.3, 1] }}
+                        transition={{ delay: index * 0.1, duration: 0.4 }}
+                        viewport={{ once: true }}
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 ring-4 ring-background z-10"
+                      >
+                        <Briefcase className="h-4 w-4 text-primary" />
+                      </motion.div>
+                      {index < experience.length - 1 && (
+                        <motion.div
+                          initial={{ scaleY: 0 }}
+                          whileInView={{ scaleY: 1 }}
+                          transition={{ delay: index * 0.1 + 0.25, duration: 0.5 }}
+                          viewport={{ once: true }}
+                          style={{ transformOrigin: "top" }}
+                          className="w-0.5 flex-1 my-2 bg-gradient-to-b from-primary/50 to-primary/10"
+                        />
+                      )}
                     </div>
-                    <Card className="border-primary/10 hover:border-primary/30 transition-colors">
-                      <CardHeader className="pb-2">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                          <CardTitle className="text-base md:text-lg">{exp.title}</CardTitle>
-                          <Badge variant="outline" className="w-fit text-xs shrink-0">
-                            {exp.period}
-                          </Badge>
-                        </div>
-                        <CardDescription className="text-sm font-medium">
-                          {exp.company} · {exp.location}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <ul className="space-y-1.5">
-                          {exp.bullets.map((bullet, bIndex) => (
-                            <li key={bIndex} className="text-sm text-muted-foreground flex gap-2">
-                              <span className="text-primary shrink-0 mt-0.5">›</span>
-                              {bullet}
-                            </li>
-                          ))}
-                        </ul>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
+                    {/* Right column: card */}
+                    <motion.div
+                      initial={{ opacity: 0, x: 24 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 + 0.05 }}
+                      viewport={{ once: true }}
+                      className={`flex-1 ${index < experience.length - 1 ? "pb-8" : "pb-0"}`}
+                    >
+                      <Card className="border-primary/10 hover:border-primary/30 transition-colors">
+                        <CardHeader className="pb-2">
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                            <CardTitle className="text-base md:text-lg">{exp.title}</CardTitle>
+                            <Badge variant="outline" className="w-fit text-xs shrink-0">
+                              {exp.period}
+                            </Badge>
+                          </div>
+                          <CardDescription className="text-sm font-medium">
+                            {exp.company} · {exp.location}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <ul className="space-y-1.5">
+                            {exp.bullets.map((bullet, bIndex) => (
+                              <li key={bIndex} className="text-sm text-muted-foreground flex gap-2">
+                                <span className="text-primary shrink-0 mt-0.5">›</span>
+                                {bullet}
+                              </li>
+                            ))}
+                          </ul>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  </div>
                 ))}
               </div>
             </motion.div>
@@ -703,7 +849,9 @@ export function PortfolioPage() {
                     {category}
                     {category !== "All" && (
                       <span className="ml-1.5 opacity-70">
-                        {projects.filter((p) => p.category === category).length}
+                        {category === "ROS"
+                          ? projects.filter((p) => p.tags.some((t) => t.toLowerCase().includes("ros"))).length
+                          : projects.filter((p) => p.category === category).length}
                       </span>
                     )}
                   </button>
@@ -722,7 +870,8 @@ export function PortfolioPage() {
                       transition={{ duration: 0.3 }}
                       className="h-full"
                     >
-                      <Card className="h-full flex flex-col overflow-hidden group hover:border-primary/30 transition-colors">
+                      <TiltCard className="h-full">
+                      <Card className="h-full flex flex-col overflow-hidden group hover:border-primary/30 transition-colors hover:shadow-xl hover:shadow-primary/5">
                         {project.video ? (
                           <div
                             className="aspect-video relative overflow-hidden bg-muted cursor-pointer"
@@ -801,7 +950,7 @@ export function PortfolioPage() {
                           </div>
                           <CardDescription>{project.description}</CardDescription>
                           <div className="flex gap-2 mt-2">
-                            {project.github ? (
+                            {project.github && (
                               <Button
                                 variant="outline"
                                 size="sm"
@@ -811,7 +960,19 @@ export function PortfolioPage() {
                                 <Github className="h-3 w-3 mr-1" />
                                 GitHub
                               </Button>
-                            ) : (
+                            )}
+                            {project.youtube && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="h-7 text-xs border-red-500/20 text-red-600 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-500/10"
+                                onClick={() => window.open(project.youtube, "_blank")}
+                              >
+                                <Youtube className="h-3.5 w-3.5 mr-1" />
+                                YouTube
+                              </Button>
+                            )}
+                            {!project.github && !project.youtube && (
                               <Button
                                 variant="outline"
                                 size="sm"
@@ -834,6 +995,7 @@ export function PortfolioPage() {
                           </div>
                         </CardContent>
                       </Card>
+                      </TiltCard>
                     </motion.div>
                   ))}
                 </AnimatePresence>
@@ -971,19 +1133,27 @@ export function PortfolioPage() {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-1">
                         <p className="text-sm text-muted-foreground">Total Stars</p>
-                        <p className="text-2xl font-bold">64</p>
+                        <p className="text-2xl font-bold text-primary">
+                          <CountUp end={64} />
+                        </p>
                       </div>
                       <div className="space-y-1">
                         <p className="text-sm text-muted-foreground">Repositories</p>
-                        <p className="text-2xl font-bold">37</p>
+                        <p className="text-2xl font-bold text-primary">
+                          <CountUp end={37} />
+                        </p>
                       </div>
                       <div className="space-y-1">
                         <p className="text-sm text-muted-foreground">Total Commits</p>
-                        <p className="text-2xl font-bold">1241</p>
+                        <p className="text-2xl font-bold text-primary">
+                          <CountUp end={1241} />
+                        </p>
                       </div>
                       <div className="space-y-1">
                         <p className="text-sm text-muted-foreground">Pull Requests</p>
-                        <p className="text-2xl font-bold">12</p>
+                        <p className="text-2xl font-bold text-primary">
+                          <CountUp end={12} />
+                        </p>
                       </div>
                     </div>
                   </CardContent>
@@ -1065,7 +1235,7 @@ export function PortfolioPage() {
                   </a>
                 </Button>
                 <Button variant="outline" className="border-primary/20 hover:border-primary/50" asChild>
-                  <a href="/resume/14-3-26/resume_cs_gokulbarath.pdf" target="_blank" rel="noopener noreferrer">
+                  <a href="/resume/14-3-26/resume_allinone_gokulbarath.pdf" target="_blank" rel="noopener noreferrer">
                     <FileText className="mr-2 h-4 w-4" />
                     Download Resume
                   </a>
