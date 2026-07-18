@@ -18,6 +18,12 @@ const config: Config = {
             },
         },
         extend: {
+            fontFamily: {
+                sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
+                mono: ["var(--font-geist-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+                serif: ["var(--font-bodoni)", "Didot", "Bodoni MT", "Georgia", "serif"],
+                display: ["var(--font-anton)", "Impact", "Haettenschweiler", "sans-serif"],
+            },
             colors: {
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",

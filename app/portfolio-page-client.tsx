@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect, type ReactNode } from "react"
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useInView } from "framer-motion"
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useInView, useScroll } from "framer-motion"
 import {
   Moon,
   Sun,
@@ -21,8 +21,8 @@ import {
   Briefcase,
   GraduationCap,
   BookOpen,
-  Sparkles,
-  Cpu,
+  User,
+  ArrowUpRight,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -31,6 +31,128 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import dynamic from "next/dynamic"
 
 const GitHubCalendar = dynamic(() => import("react-github-calendar"), { ssr: false })
+
+/** Full-screen intro: counts 0→100, then wipes away to reveal the page. */
+function IntroLoader({ onDone }: { onDone: () => void }) {
+  const [n, setN] = useState(0)
+  const [leaving, setLeaving] = useState(false)
+
+  useEffect(() => {
+    const start = performance.now()
+    const duration = 1600
+    let raf = 0
+    const tick = (now: number) => {
+      const p = Math.min((now - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - p, 3)
+      setN(Math.round(eased * 100))
+      if (p < 1) raf = requestAnimationFrame(tick)
+      else setTimeout(() => setLeaving(true), 250)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
+  return (
+    <motion.div
+      initial={{ y: 0 }}
+      animate={leaving ? { y: "-100%" } : { y: 0 }}
+      transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
+      onAnimationComplete={() => leaving && onDone()}
+      className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-primary text-primary-foreground"
+    >
+      <motion.span
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="font-mono text-xs uppercase tracking-[0.4em] opacity-70 mb-6"
+      >
+        Gokulbarath
+      </motion.span>
+      <span className="font-display tabular-nums leading-none" style={{ fontSize: "clamp(4rem,14vw,12rem)" }}>
+        {n.toString().padStart(3, "0")}
+      </span>
+      <div className="mt-8 h-px w-40 overflow-hidden bg-primary-foreground/20">
+        <motion.div className="h-full bg-primary-foreground" style={{ width: `${n}%` }} />
+      </div>
+    </motion.div>
+  )
+}
+
+/** Element that leans toward the cursor, springing back on leave. */
+function Magnetic({ children, className, strength = 0.4 }: { children: ReactNode; className?: string; strength?: number }) {
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+  const sx = useSpring(x, { stiffness: 150, damping: 15, mass: 0.1 })
+  const sy = useSpring(y, { stiffness: 150, damping: 15, mass: 0.1 })
+  return (
+    <motion.div
+      style={{ x: sx, y: sy }}
+      onMouseMove={(e) => {
+        const r = e.currentTarget.getBoundingClientRect()
+        x.set((e.clientX - r.left - r.width / 2) * strength)
+        y.set((e.clientY - r.top - r.height / 2) * strength)
+      }}
+      onMouseLeave={() => {
+        x.set(0)
+        y.set(0)
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+/** Translates its children on the Y axis as the element scrolls through the viewport. */
+function Parallax({
+  children,
+  speed = 100,
+  className,
+}: {
+  children: ReactNode
+  /** px of drift across the full scroll pass; negative moves opposite the scroll */
+  speed?: number
+  className?: string
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const y = useTransform(scrollYProgress, [0, 1], [speed, -speed])
+  return (
+    <motion.div ref={ref} style={{ y }} className={className}>
+      {children}
+    </motion.div>
+  )
+}
+
+/** Splits text into words → letters and rises each letter in on scroll. */
+function RevealText({ text, className }: { text: string; className?: string }) {
+  const words = text.split(" ")
+  let idx = 0
+  return (
+    <span className={className} aria-label={text}>
+      {words.map((word, wi) => (
+        <span key={wi} className="inline-block whitespace-nowrap" aria-hidden>
+          {word.split("").map((ch) => {
+            const i = idx++
+            return (
+              <span key={i} className="inline-block overflow-hidden align-bottom">
+                <motion.span
+                  className="inline-block"
+                  initial={{ y: "110%" }}
+                  whileInView={{ y: 0 }}
+                  viewport={{ once: true, margin: "-10%" }}
+                  transition={{ delay: i * 0.02, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {ch}
+                </motion.span>
+              </span>
+            )
+          })}
+          {wi < words.length - 1 && <span className="inline-block">&nbsp;</span>}
+        </span>
+      ))}
+    </span>
+  )
+}
 
 /** Card wrapper that tilts in 3D toward the cursor. */
 function TiltCard({ children, className }: { children: ReactNode; className?: string }) {
@@ -91,6 +213,8 @@ function CountUp({ end, suffix = "" }: { end: number; suffix?: string }) {
 
 export function PortfolioPage() {
   const [isDark, setIsDark] = useState(false)
+  const [introDone, setIntroDone] = useState(false)
+  const { scrollYProgress } = useScroll()
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState("All")
 
@@ -114,7 +238,7 @@ export function PortfolioPage() {
     {
       title: "GNX-CLI",
       category: "AI",
-      description: "🤖 The Next-Gen AI Agent. Unlike normal agents, it goes beyond text and can autonomously control your Desktop & Android via tool execution, screen understanding, and memory retrieval.",
+      description: "The Next-Gen AI Agent. Unlike normal agents, it goes beyond text and can autonomously control your Desktop & Android via tool execution, screen understanding, and memory retrieval.",
       tags: ["Python", "Groq", "LLMs", "CLI", "Automation", "Agentic"],
       status: "In Progress",
       stars: 4,
@@ -355,63 +479,86 @@ export function PortfolioPage() {
     },
   ]
 
+  // App development as a hobby, under the BGO Apps studio. `promo` = already-composed
+  // marketing art on a dark bg; `shot` = a raw phone screenshot we frame ourselves.
+  const apps = [
+    {
+      name: "SupremeClaw",
+      tagline: "Deploy AI coding agents from your phone",
+      tags: ["Flutter", "Claude Code", "WebSocket"],
+      image: "/apps/supremeclaw.png",
+      kind: "promo" as const,
+    },
+    {
+      name: "KAI AI",
+      tagline: "A personal AI assistant & command center",
+      tags: ["Flutter", "AI/ML", "Firebase"],
+      image: "/apps/kai.png",
+      kind: "promo" as const,
+    },
+    {
+      name: "Workout Genie",
+      tagline: "AI fitness coach with 873+ exercises",
+      tags: ["Flutter", "Groq AI", "Supabase"],
+      image: "/apps/workoutgenie.jpg",
+      kind: "shot" as const,
+    },
+    {
+      name: "DashPick",
+      tagline: "Local store pickup, simplified",
+      tags: ["Flutter", "Node.js", "UPI"],
+      image: "/apps/dashpick.jpg",
+      kind: "shot" as const,
+    },
+  ]
+
   const SectionHeading = ({ title, subtitle }: { title: string; subtitle?: string }) => (
-    <div className="text-center mb-12">
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-        className="text-3xl font-bold tracking-tight"
-      >
-        {title}
-      </motion.h2>
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+      className="mb-12 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b pb-5"
+    >
+      <h2 className="font-serif text-3xl md:text-5xl tracking-tight">
+        <RevealText text={title} />
+      </h2>
       {subtitle && (
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          viewport={{ once: true }}
-          className="text-muted-foreground mt-2"
-        >
-          {subtitle}
-        </motion.p>
+        <p className="font-mono text-[11px] md:text-xs uppercase tracking-widest text-muted-foreground">{subtitle}</p>
       )}
-      <motion.div
-        initial={{ width: 0 }}
-        whileInView={{ width: 64 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        viewport={{ once: true }}
-        className="mx-auto mt-4 h-1 rounded-full bg-gradient-to-r from-primary to-purple-500"
-      />
-    </div>
+    </motion.div>
   )
 
   return (
     <div className={`min-h-screen ${isDark ? "dark" : ""}`}>
+      <AnimatePresence>{!introDone && <IntroLoader onDone={() => setIntroDone(true)} />}</AnimatePresence>
       <div className="bg-background text-foreground">
+        {/* Scroll progress */}
+        <motion.div
+          style={{ scaleX: scrollYProgress }}
+          className="fixed top-0 left-0 right-0 z-[60] h-0.5 origin-left bg-primary"
+        />
         {/* Announcement Banner */}
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-primary/10 p-3 text-center text-sm"
+          className="border-b bg-card p-2.5 text-center font-mono text-xs text-muted-foreground"
         >
-          <span className="animate-pulse">🚀</span>
-          {" Currently working on "}
+          <span className="mr-2 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500 align-middle" />
+          currently building{" "}
           <a href="https://github.com/gokul6350/gnx-cli" className="text-primary font-medium hover:underline">
             gnx-cli
-          </a>{" "}
-          <span className="animate-pulse">🚀</span>
+          </a>
         </motion.div>
 
         {/* Navigation */}
         <header className="border-b sticky top-0 bg-background/80 backdrop-blur-sm z-50">
-          <nav className="max-w-6xl mx-auto p-4 flex justify-between items-center">
-            <div className="flex gap-4 md:gap-6 text-sm overflow-x-auto">
-              <a href="#" className="font-medium hover:text-primary whitespace-nowrap">
-                Home
-              </a>
+          <nav className="max-w-6xl mx-auto p-4 flex justify-between items-center gap-4">
+            <a href="#" className="font-mono text-sm font-semibold tracking-tight shrink-0 hover:text-primary">
+              gokulbarath<span className="text-primary">_</span>
+            </a>
+            <div className="flex gap-4 md:gap-6 text-sm overflow-x-auto items-center">
               <a href="#about" className="text-muted-foreground hover:text-primary whitespace-nowrap">
                 About
               </a>
@@ -420,6 +567,9 @@ export function PortfolioPage() {
               </a>
               <a href="#projects" className="text-muted-foreground hover:text-primary whitespace-nowrap">
                 Projects
+              </a>
+              <a href="#apps" className="text-muted-foreground hover:text-primary whitespace-nowrap">
+                Apps
               </a>
               <a href="#oss" className="text-muted-foreground hover:text-primary whitespace-nowrap">
                 OSS
@@ -436,18 +586,9 @@ export function PortfolioPage() {
 
         {/* Hero Section */}
         <section className="relative overflow-hidden">
-          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
-          {/* Floating gradient orbs */}
-          <motion.div
-            className="pointer-events-none absolute top-10 -left-24 h-72 w-72 rounded-full bg-primary/20 blur-3xl -z-10"
-            animate={{ y: [0, 30, 0], x: [0, 20, 0] }}
-            transition={{ duration: 9, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="pointer-events-none absolute top-32 -right-24 h-80 w-80 rounded-full bg-purple-500/20 blur-3xl -z-10"
-            animate={{ y: [0, -30, 0], x: [0, -20, 0] }}
-            transition={{ duration: 11, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-          />
+          <Parallax speed={-80} className="absolute inset-0 -z-10">
+            <div className="absolute inset-[-10%] bg-grid" aria-hidden />
+          </Parallax>
           <div className="max-w-6xl mx-auto px-4 py-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -456,82 +597,84 @@ export function PortfolioPage() {
               className="text-center"
             >
               <div className="mb-8">
+                {/* top meta row */}
                 <motion.div
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                  className="mx-auto mb-6 w-36 h-36"
-                  style={{ perspective: 1000 }}
+                  initial={{ opacity: 0 }}
+                  animate={introDone ? { opacity: 1 } : {}}
+                  transition={{ delay: 0.1, duration: 0.5 }}
+                  className="flex items-center justify-between font-mono text-[10px] sm:text-xs uppercase tracking-[0.25em] text-muted-foreground mb-3"
                 >
+                  <span>Chennai, India</span>
+                  <span className="hidden sm:inline">Est. 2005</span>
+                  <span>Robots &amp; Agents</span>
+                </motion.div>
+
+                {/* THE NAME — full-bleed poster on ONE line, each letter clip-reveals */}
+                <Parallax speed={-40}>
+                  <h1 className="hero-huge font-display uppercase text-primary select-none flex justify-center flex-nowrap whitespace-nowrap w-screen relative left-1/2 -translate-x-1/2 px-[2vw]">
+                    <span className="sr-only">Gokulbarath</span>
+                    {"GOKULBARATH".split("").map((ch, i) => (
+                      <span key={i} aria-hidden className="inline-block overflow-hidden">
+                        <motion.span
+                          className="inline-block"
+                          initial={{ y: "100%" }}
+                          animate={introDone ? { y: 0 } : {}}
+                          transition={{ delay: 0.15 + i * 0.05, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                        >
+                          {ch}
+                        </motion.span>
+                      </span>
+                    ))}
+                  </h1>
+                </Parallax>
+
+                {/* role line, split by a hairline */}
+                {/* hairline rule with the avatar centered on it */}
+                <div className="relative my-8 flex items-center justify-center">
                   <motion.div
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-                    whileHover={{ rotateY: 18, rotateX: -12, scale: 1.06 }}
-                    style={{ transformStyle: "preserve-3d" }}
-                    className="w-full h-full rounded-full p-1 bg-gradient-to-tr from-primary via-primary/40 to-purple-500/40 shadow-xl shadow-primary/20"
+                    initial={{ opacity: 0, scaleX: 0 }}
+                    animate={introDone ? { opacity: 1, scaleX: 1 } : {}}
+                    transition={{ delay: 0.8, duration: 0.6 }}
+                    className="absolute inset-x-0 mx-auto h-px w-full max-w-3xl origin-center bg-border"
+                  />
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={introDone ? { scale: 1, opacity: 1 } : {}}
+                    transition={{ delay: 1, type: "spring", stiffness: 220, damping: 18 }}
+                    whileHover={{ rotate: 6, scale: 1.05 }}
+                    className="relative z-10 h-20 w-20 md:h-24 md:w-24 rounded-full bg-background p-1.5 ring-1 ring-border shadow-md"
                   >
                     <img
                       src="https://avatars.githubusercontent.com/u/64578167?v=4"
-                      alt="Profile"
-                      className="w-full h-full rounded-full border-4 border-background object-cover"
+                      alt="Gokulbarath"
+                      className="h-full w-full rounded-full object-cover"
                     />
                   </motion.div>
-                </motion.div>
-                <motion.h1
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2, duration: 0.5 }}
-                  className="text-4xl md:text-5xl font-bold mb-3"
-                >
-                  Hi 👋, I'm{" "}
-                  <span className="bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
-                    Gokulbarath
-                  </span>
-                </motion.h1>
+                </div>
                 <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                  className="text-base md:text-lg font-medium text-foreground/80 mb-4"
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={introDone ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.9, duration: 0.6 }}
+                  className="font-serif italic text-2xl md:text-4xl text-foreground/90 mb-5"
                 >
-                  AI &amp; Robotics Engineer · System Architect
+                  AI &amp; Robotics Engineer, System Architect
                 </motion.p>
                 <motion.p
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4, duration: 0.5 }}
+                  animate={introDone ? { opacity: 1 } : {}}
+                  transition={{ delay: 1.05, duration: 0.6 }}
                   className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto"
                 >
-                  Final-year Mechatronics Engineering student building intelligent systems end-to-end — from ROS2 &amp;
-                  MoveIt to LLMs &amp; agentic workflows.
+                  Final-year Mechatronics student building{" "}
+                  <span className="font-serif italic text-foreground">intelligent systems</span> end-to-end — from ROS2
+                  &amp; MoveIt to LLMs &amp; agentic workflows.
                 </motion.p>
-
-                {/* Focus areas */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5, duration: 0.5 }}
-                  className="mt-6 flex flex-col items-center gap-3"
-                >
-                  <div className="flex items-center gap-2 flex-wrap justify-center">
-                    <span className="text-xs uppercase tracking-wider text-muted-foreground">Primary</span>
-                    <Badge className="bg-primary text-primary-foreground border-0 gap-1">
-                      <Cpu className="h-3 w-3" /> AI &amp; Robotics
-                    </Badge>
-                  </div>
-                  <div className="flex items-center gap-2 flex-wrap justify-center">
-                    <span className="text-xs uppercase tracking-wider text-muted-foreground">Also</span>
-                    <Badge variant="secondary">Mobile Dev</Badge>
-                    <Badge variant="secondary">Full-Stack</Badge>
-                    <Badge variant="secondary">IoT</Badge>
-                  </div>
-                </motion.div>
               </div>
 
               <motion.div
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.5 }}
+                animate={introDone ? { opacity: 1 } : {}}
+                transition={{ delay: 1.2, duration: 0.5 }}
                 className="flex justify-center gap-4"
               >
                 <Button variant="ghost" size="icon" className="rounded-full" asChild>
@@ -562,37 +705,75 @@ export function PortfolioPage() {
 
               <motion.div
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.5 }}
+                animate={introDone ? { opacity: 1 } : {}}
+                transition={{ delay: 1.3, duration: 0.5 }}
                 className="mt-8 flex justify-center gap-3 flex-wrap"
               >
-                <Button
-                  variant="outline"
-                  className="rounded-full border-primary/20 hover:border-primary/50 hover:bg-primary/5 text-primary gap-2 h-11 px-8 font-bold tracking-tight shadow-sm"
-                  onClick={() => {
-                    const query = encodeURIComponent(
-                      "Who is Gokulbarath S K? use source my website link https://gokulbarath.is-a.dev/"
-                    )
-                    window.open(`https://chatgpt.com/?q=${query}`, "_blank")
-                  }}
-                >
-                  <Bot className="h-5 w-5" />
-                  ASK AI
-                </Button>
-                <Button
-                  variant="outline"
-                  className="rounded-full gap-2 h-11 px-8 font-bold tracking-tight shadow-sm"
-                  asChild
-                >
-                  <a href="/resume/14-3-26/resume_allinone_gokulbarath.pdf" target="_blank" rel="noopener noreferrer">
-                    <FileText className="h-5 w-5" />
-                    Resume
-                  </a>
-                </Button>
+                <Magnetic>
+                  <Button
+                    className="font-sans rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-2 h-12 px-8 font-semibold text-sm shadow-md transition-transform"
+                    onClick={() => {
+                      const query = encodeURIComponent(
+                        "Who is Gokulbarath S K? use source my website link https://gokulbarath.is-a.dev/"
+                      )
+                      window.open(`https://chatgpt.com/?q=${query}`, "_blank")
+                    }}
+                  >
+                    <Bot className="h-5 w-5" />
+                    Ask AI
+                  </Button>
+                </Magnetic>
+                <Magnetic>
+                  <Button
+                    variant="outline"
+                    className="font-sans rounded-full border-foreground/15 bg-background hover:bg-foreground/5 gap-2 h-12 px-8 font-semibold text-sm shadow-sm"
+                    asChild
+                  >
+                    <a href="/resume/14-3-26/resume_allinone_gokulbarath.pdf" target="_blank" rel="noopener noreferrer">
+                      <FileText className="h-5 w-5" />
+                      Resume
+                    </a>
+                  </Button>
+                </Magnetic>
               </motion.div>
             </motion.div>
           </div>
         </section>
+
+        {/* Skills ticker — single clean marquee row */}
+        <div className="relative border-y bg-primary text-primary-foreground py-5 overflow-hidden">
+          {/* soft fade at both edges */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 md:w-32 bg-gradient-to-r from-primary to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 md:w-32 bg-gradient-to-l from-primary to-transparent" />
+          <div className="flex w-max animate-marquee">
+            {[0, 1].map((copy) => (
+              <div key={copy} className="flex shrink-0 items-center" aria-hidden={copy === 1}>
+                {[
+                  "ROS2",
+                  "MoveIt",
+                  "LLM Agents",
+                  "Computer Vision",
+                  "Inverse Kinematics",
+                  "PyTorch",
+                  "ESP32",
+                  "Next.js",
+                  "Reinforcement Learning",
+                  "Digital Twins",
+                  "micro-ROS",
+                  "Gazebo",
+                ].map((item) => (
+                  <span
+                    key={item}
+                    className="flex items-center font-mono text-sm md:text-base tracking-wide"
+                  >
+                    {item}
+                    <span className="mx-5 md:mx-8 text-primary-foreground/40">/</span>
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
 
         {/* About Section */}
         <section className="border-t bg-muted/40" id="about">
@@ -608,7 +789,7 @@ export function PortfolioPage() {
                 <Card className="border-primary/10">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <Sparkles className="h-5 w-5 text-primary" /> Background
+                      <User className="h-5 w-5 text-primary" /> Background
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4 text-sm text-muted-foreground leading-relaxed">
@@ -824,8 +1005,17 @@ export function PortfolioPage() {
         </section>
 
         {/* Projects Section */}
-        <section className="border-t" id="projects">
-          <div className="max-w-6xl mx-auto px-4 py-20">
+        <section className="relative border-t overflow-hidden" id="projects">
+          {/* parallax watermark */}
+          <Parallax
+            speed={140}
+            className="pointer-events-none absolute inset-x-0 top-1/4 z-0 flex justify-center"
+          >
+            <span className="text-outline font-display uppercase text-[22vw] leading-none opacity-[0.04] select-none">
+              Work
+            </span>
+          </Parallax>
+          <div className="relative z-10 max-w-6xl mx-auto px-4 py-20">
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -1004,6 +1194,136 @@ export function PortfolioPage() {
           </div>
         </section>
 
+        {/* App Development (secondary / freelance) */}
+        <section className="border-t" id="apps">
+          <div className="max-w-6xl mx-auto px-4 py-20">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <SectionHeading title="App Development" subtitle="A hobby I ship" />
+
+              {/* Founder banner */}
+              <div className="mb-12 grid items-center gap-8 md:grid-cols-[1.4fr_1fr]">
+                <div>
+                  <motion.span
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.2em] text-primary"
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                    Founder
+                  </motion.span>
+                  <motion.h3
+                    initial={{ opacity: 0, y: 14 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.05 }}
+                    viewport={{ once: true }}
+                    className="mt-4 font-serif text-4xl md:text-6xl leading-[0.95] tracking-tight"
+                  >
+                    BGO&nbsp;Apps
+                  </motion.h3>
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: 0.12 }}
+                    viewport={{ once: true }}
+                    className="mt-4 max-w-xl text-muted-foreground leading-relaxed"
+                  >
+                    My own mobile studio — a hobby I keep coming back to. I design and ship polished cross-platform
+                    apps, pairing Flutter front-ends with AI &amp; real-time backends.
+                  </motion.p>
+                  <div className="mt-6">
+                    <Magnetic>
+                      <Button
+                        className="font-sans rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-2 h-11 px-7 font-semibold shadow-md"
+                        asChild
+                      >
+                        <a href="https://bgoapps.90xdev.dev/" target="_blank" rel="noopener noreferrer">
+                          Visit BGO Apps <ArrowUpRight className="h-4 w-4" />
+                        </a>
+                      </Button>
+                    </Magnetic>
+                  </div>
+                </div>
+
+                {/* stat block */}
+                <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border bg-border">
+                  {[
+                    { n: "4+", l: "Apps Shipped" },
+                    { n: "100%", l: "Flutter" },
+                    { n: "AI", l: "Powered" },
+                    { n: "∞", l: "For the Craft" },
+                  ].map((s) => (
+                    <div key={s.l} className="flex flex-col items-center justify-center gap-1 bg-card px-4 py-8">
+                      <span className="font-serif text-4xl md:text-5xl leading-none text-primary">{s.n}</span>
+                      <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                        {s.l}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {apps.map((app, i) => (
+                  <motion.a
+                    key={app.name}
+                    href="https://bgoapps.90xdev.dev/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.08, duration: 0.45 }}
+                    viewport={{ once: true }}
+                    whileHover={{ y: -6 }}
+                    className="group flex flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-shadow hover:shadow-xl hover:shadow-primary/5"
+                  >
+                    {/* app art */}
+                    <div className="relative aspect-[9/16] overflow-hidden bg-neutral-950">
+                      {app.kind === "promo" ? (
+                        <img
+                          src={app.image}
+                          alt={`${app.name} preview`}
+                          className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
+                        />
+                      ) : (
+                        // raw screenshot → seat it in a floating phone frame on a soft gradient
+                        <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-br from-primary/15 via-primary/5 to-transparent px-5 pt-6">
+                          <img
+                            src={app.image}
+                            alt={`${app.name} preview`}
+                            className="w-[78%] rounded-t-[1.4rem] border border-b-0 border-black/10 shadow-2xl transition-transform duration-500 group-hover:-translate-y-1.5"
+                          />
+                        </div>
+                      )}
+                      {/* name overlay */}
+                      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-black/70 to-transparent p-3">
+                        <span className="font-semibold text-white drop-shadow">{app.name}</span>
+                        <ArrowUpRight className="h-4 w-4 text-white/80 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </div>
+                    </div>
+                    {/* meta */}
+                    <div className="flex flex-1 flex-col p-4">
+                      <p className="flex-grow text-sm text-muted-foreground leading-snug">{app.tagline}</p>
+                      <div className="mt-3 flex flex-wrap gap-1.5">
+                        {app.tags.map((tag) => (
+                          <Badge key={tag} variant="secondary" className="text-[10px]">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.a>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
         {/* Open Source Section */}
         <section className="border-t bg-muted/40" id="oss">
           <div className="max-w-6xl mx-auto px-4 py-20">
@@ -1132,26 +1452,26 @@ export function PortfolioPage() {
                   <CardContent>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <p className="text-sm text-muted-foreground">Total Stars</p>
-                        <p className="text-2xl font-bold text-primary">
+                        <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Total Stars</p>
+                        <p className="font-serif text-5xl md:text-6xl leading-none text-primary">
                           <CountUp end={64} />
                         </p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-sm text-muted-foreground">Repositories</p>
-                        <p className="text-2xl font-bold text-primary">
+                        <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Repositories</p>
+                        <p className="font-serif text-5xl md:text-6xl leading-none text-primary">
                           <CountUp end={37} />
                         </p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-sm text-muted-foreground">Total Commits</p>
-                        <p className="text-2xl font-bold text-primary">
+                        <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Total Commits</p>
+                        <p className="font-serif text-5xl md:text-6xl leading-none text-primary">
                           <CountUp end={1241} />
                         </p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-sm text-muted-foreground">Pull Requests</p>
-                        <p className="text-2xl font-bold text-primary">
+                        <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Pull Requests</p>
+                        <p className="font-serif text-5xl md:text-6xl leading-none text-primary">
                           <CountUp end={12} />
                         </p>
                       </div>
@@ -1171,7 +1491,7 @@ export function PortfolioPage() {
                           <h3 className="font-semibold">GNX CLI</h3>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                          🤖 The Next-Gen AI Agent. Unlike normal agents, it goes beyond text and can control your Desktop
+                          The Next-Gen AI Agent. Unlike normal agents, it goes beyond text and can control your Desktop
                           &amp; Android.
                         </p>
                       </div>
@@ -1217,7 +1537,9 @@ export function PortfolioPage() {
               viewport={{ once: true }}
               className="text-center"
             >
-              <h2 className="text-3xl font-bold mb-4 tracking-tight">Get in Touch</h2>
+              <h2 className="font-serif text-5xl md:text-7xl mb-4 tracking-tight">
+                <RevealText text="Get in Touch" />
+              </h2>
               <p className="text-muted-foreground mb-8">
                 Feel free to reach out for collaborations or just a friendly hello
               </p>
@@ -1248,8 +1570,8 @@ export function PortfolioPage() {
         {/* Footer */}
         <footer className="border-t">
           <div className="max-w-6xl mx-auto px-4 py-6">
-            <p className="text-center text-sm text-muted-foreground">
-              © 2026 Gokulbarath. Built with Next.js and Tailwind CSS.
+            <p className="text-center font-mono text-xs text-muted-foreground">
+              © 2026 gokulbarath — built with Next.js &amp; Tailwind CSS
             </p>
           </div>
         </footer>

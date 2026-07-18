@@ -4,26 +4,26 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    --background: 40 30% 98%;
+    --foreground: 224 25% 12%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
+    --card-foreground: 224 25% 12%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
+    --popover-foreground: 224 25% 12%;
+    --primary: 224 62% 38%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
+    --secondary: 40 18% 93%;
+    --secondary-foreground: 224 25% 14%;
+    --muted: 40 18% 94%;
+    --muted-foreground: 224 12% 42%;
+    --accent: 224 62% 95%;
+    --accent-foreground: 224 62% 30%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --radius: 0.5rem;
+    --border: 40 12% 86%;
+    --input: 40 12% 86%;
+    --ring: 224 62% 38%;
+    --radius: 0.625rem;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -32,7 +32,7 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
+    --primary: 224 70% 70%;
     --primary-foreground: 0 0% 9%;
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
@@ -44,7 +44,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
+    --ring: 224 70% 70%;
   }
 }
 
@@ -54,5 +54,59 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  /* Blueprint graph-paper grid, fades out toward the edges */
+  .bg-grid {
+    background-image: linear-gradient(to right, hsl(var(--border) / 0.6) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.6) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, black 30%, transparent 80%);
+  }
+
+  .animate-marquee {
+    animation: marquee 32s linear infinite;
+  }
+  .animate-marquee-rev {
+    animation: marquee 40s linear infinite reverse;
+  }
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee,
+    .animate-marquee-rev {
+      animation: none;
+    }
+  }
+
+  /* Outlined poster text */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px hsl(var(--primary));
+  }
+  @media (min-width: 768px) {
+    .text-outline {
+      -webkit-text-stroke: 2px hsl(var(--primary));
+    }
+  }
+
+  .hero-huge {
+    /* GOKULBARATH = 11 Anton caps, ~6.3em wide at this tracking.
+       14.5vw fills the viewport edge-to-edge while staying on one line. */
+    font-size: 14.5vw;
+    line-height: 0.9;
+    letter-spacing: -0.015em;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
