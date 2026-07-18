@@ -110,3 +110,79 @@
     transform: translateX(-50%);
   }
 }
+
+/* Attention-grabbing waitlist button */
+@layer utilities {
+  .cta-glow {
+    position: relative;
+    border-radius: 9999px;
+    /* expanding pulse rings, always visible on light bg */
+    animation: cta-ring 1.8s ease-out infinite;
+  }
+  /* rotating gradient conic border */
+  .cta-glow::before {
+    content: "";
+    position: absolute;
+    inset: -2.5px;
+    border-radius: 9999px;
+    background: conic-gradient(
+      from 0deg,
+      hsl(var(--primary)),
+      hsl(262 70% 60%),
+      hsl(var(--primary) / 0.2),
+      hsl(var(--primary))
+    );
+    z-index: -1;
+    animation: cta-spin 3s linear infinite;
+  }
+  /* shimmer sweep across the surface */
+  .cta-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-shimmer::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, hsl(var(--primary) / 0.25), transparent);
+    transform: skewX(-18deg);
+    animation: cta-sweep 2.6s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-glow,
+    .cta-glow::before,
+    .cta-shimmer::after {
+      animation: none;
+    }
+  }
+}
+
+@keyframes cta-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* expanding halo ring using box-shadow so it shows on a light background */
+@keyframes cta-ring {
+  0% {
+    box-shadow: 0 0 0 0 hsl(var(--primary) / 0.45);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 14px hsl(var(--primary) / 0);
+  }
+}
+
+@keyframes cta-sweep {
+  0% {
+    left: -60%;
+  }
+  55%,
+  100% {
+    left: 130%;
+  }
+}

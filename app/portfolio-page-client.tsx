@@ -23,6 +23,7 @@ import {
   BookOpen,
   User,
   ArrowUpRight,
+  Sparkles,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -33,8 +34,27 @@ import dynamic from "next/dynamic"
 const GitHubCalendar = dynamic(() => import("react-github-calendar"), { ssr: false })
 
 /** Full-screen intro: counts 0→100, then wipes away to reveal the page. */
+// Tech stack flashed through during the intro loader.
+const introLogos = [
+  { src: "/logos/python.png", label: "Python" },
+  { src: "/logos/pytorch.png", label: "PyTorch" },
+  { src: "/logos/tensorflow.jpeg", label: "TensorFlow" },
+  { src: "/logos/opencv.png", label: "OpenCV" },
+  { src: "/logos/huggingface.png", label: "Hugging Face" },
+  { src: "/logos/moveit.png", label: "MoveIt" },
+  { src: "/logos/gazebo.png", label: "Gazebo" },
+  { src: "/logos/arduino.png", label: "Arduino" },
+  { src: "/logos/esp.png", label: "ESP32" },
+  { src: "/logos/flutter.png", label: "Flutter" },
+  { src: "/logos/react.png", label: "React" },
+  { src: "/logos/nextjs.png", label: "Next.js" },
+  { src: "/logos/postgres.png", label: "PostgreSQL" },
+  { src: "/logos/kotlin.png", label: "Kotlin" },
+]
+
 function IntroLoader({ onDone }: { onDone: () => void }) {
   const [n, setN] = useState(0)
+  const [logo, setLogo] = useState(0)
   const [leaving, setLeaving] = useState(false)
 
   useEffect(() => {
@@ -52,6 +72,17 @@ function IntroLoader({ onDone }: { onDone: () => void }) {
     return () => cancelAnimationFrame(raf)
   }, [])
 
+  // flash through the stack, one logo every ~110ms
+  useEffect(() => {
+    const reduce =
+      typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+    if (reduce) return
+    const id = setInterval(() => setLogo((i) => (i + 1) % introLogos.length), 110)
+    return () => clearInterval(id)
+  }, [])
+
+  const current = introLogos[logo]
+
   return (
     <motion.div
       initial={{ y: 0 }}
@@ -60,13 +91,30 @@ function IntroLoader({ onDone }: { onDone: () => void }) {
       onAnimationComplete={() => leaving && onDone()}
       className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-primary text-primary-foreground"
     >
-      <motion.span
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="font-mono text-xs uppercase tracking-[0.4em] opacity-70 mb-6"
-      >
-        Gokulbarath
-      </motion.span>
+      {/* flashing tech-stack logo on a white chip */}
+      <div className="mb-8 flex h-24 flex-col items-center justify-center gap-3">
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={logo}
+            initial={{ opacity: 0, scale: 0.85, filter: "blur(4px)" }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.12 }}
+            className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3 shadow-lg"
+          >
+            <img src={current.src} alt="" className="h-full w-full object-contain" />
+          </motion.div>
+        </AnimatePresence>
+        <motion.span
+          key={`l-${logo}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.8 }}
+          className="font-mono text-[10px] uppercase tracking-[0.3em]"
+        >
+          {current.label}
+        </motion.span>
+      </div>
+
       <span className="font-display tabular-nums leading-none" style={{ fontSize: "clamp(4rem,14vw,12rem)" }}>
         {n.toString().padStart(3, "0")}
       </span>
@@ -1236,7 +1284,7 @@ export function PortfolioPage() {
                     My own mobile studio — a hobby I keep coming back to. I design and ship polished cross-platform
                     apps, pairing Flutter front-ends with AI &amp; real-time backends.
                   </motion.p>
-                  <div className="mt-6">
+                  <div className="mt-6 flex flex-wrap gap-3">
                     <Magnetic>
                       <Button
                         className="font-sans rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-2 h-11 px-7 font-semibold shadow-md"
@@ -1247,6 +1295,26 @@ export function PortfolioPage() {
                         </a>
                       </Button>
                     </Magnetic>
+                    <Magnetic>
+                      <div className="cta-glow">
+                        <Button
+                          variant="outline"
+                          className="cta-shimmer font-sans rounded-full border-transparent bg-background text-primary hover:bg-primary/5 gap-2 h-11 px-7 font-semibold shadow-sm relative z-10"
+                          asChild
+                        >
+                          <a href="https://bgoapps.90xdev.dev/waitlist" target="_blank" rel="noopener noreferrer">
+                            <motion.span
+                              animate={{ rotate: [0, 15, -10, 0], scale: [1, 1.2, 1] }}
+                              transition={{ duration: 2.2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                              className="inline-flex"
+                            >
+                              <Sparkles className="h-4 w-4" />
+                            </motion.span>
+                            Join the Waitlist
+                          </a>
+                        </Button>
+                      </div>
+                    </Magnetic>
                   </div>
                 </div>
 
@@ -1254,7 +1322,7 @@ export function PortfolioPage() {
                 <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border bg-border">
                   {[
                     { n: "4+", l: "Apps Shipped" },
-                    { n: "100%", l: "Flutter" },
+                    { n: "70+", l: "Downloads" },
                     { n: "AI", l: "Powered" },
                     { n: "∞", l: "For the Craft" },
                   ].map((s) => (
