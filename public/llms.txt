@@ -1,133 +1,169 @@
-# Gokulbarath - Portfolio & Technical Profile
+# Gokulbarath — Portfolio & Technical Profile
+
+> This file is a machine-readable summary of Gokulbarath's portfolio, optimized for
+> LLMs and AI agents. Canonical site: https://gokulbarath.is-a.dev
+> Last updated: 2026-07-18
 
 ## Identity
-- **Name**: Gokulbarath
-- **Role**: Robotics, AI, and ML Developer
-- **Motto**: Building the future of automation and intelligent systems.
-- **Location**: India
+- **Name**: Gokulbarath (also written "Gokul Barath", "Gokulbarath S K")
+- **Role**: AI & Robotics Engineer · System Architect
+- **Focus**: Primary — AI & Robotics. Secondary — Mobile Development, Full-Stack, IoT.
+- **Summary**: Final-year Mechatronics Engineering student building intelligent systems
+  end-to-end, from ROS2 & MoveIt to LLMs & agentic workflows.
+- **Location**: Chennai, India
+- **Website**: https://gokulbarath.is-a.dev
 - **GitHub**: https://github.com/gokul6350
 - **LinkedIn**: https://linkedin.com/in/gokulbarath
+- **YouTube**: https://www.youtube.com/@TheRoboticHouse-sm6tq
+- **Email**: gokul00060@gmail.com
+- **Discord**: gokul9638
+
+## Current Roles & Experience
+- **Chief Operating Officer** — Avixr Technologies Pvt Ltd, Chennai (Apr 2025 – Present).
+  Leads software architecture and engineering operations; drives technical strategy and
+  delivery of AI and software products.
+- **Vice Chair, IEEE Industry Applications Society (Student Branch Chapter)** — Chennai
+  (Jan 2026 – Present). Elected Vice Chair after serving as Member (Aug 2025 – Jan 2026).
+- **Secretary, Robotics Club** — Sathyabama Institute of Science & Technology, Chennai
+  (Jan 2026 – Present). Coordinates lab robotics activities; mentors on ROS2 workflows.
+- **Maintenance Engineer Intern** — Wheels India Limited, Chennai (May 2025 – Jun 2025).
+  Hands-on with industrial robots, automated machinery, and hardware-software control.
+
+## Education
+- **B.E. Mechatronics Engineering (Final Year)** — Sathyabama Institute of Science &
+  Technology, Chennai (Jun 2023 – May 2027).
+- Higher Secondary (CBSE) — Bright International School, Ahmedabad (2021 – 2023).
+- Secondary (CBSE) — Delhi Public School, Gandhinagar (Mar 2021).
 
 ## Featured Projects
 
-### GNX-CLI
-- **Description**: The Next-Gen AI Agent. Goes beyond text to control Desktop and Android environments.
-- **Status**: Completed (4 Stars)
-- **GitHub**: https://github.com/gokul6350/GNX-CLI
-- **Stack**: Python, AI, CLI, Automation, Desktop Control, Android Control
+### GNX-CLI (In Progress, 4 stars)
+The Next-Gen AI Agent. Goes beyond text to autonomously control Desktop & Android via
+tool execution, screen understanding, and memory retrieval.
+- GitHub: https://github.com/gokul6350/GNX-CLI
+- Stack: Python, Groq, LLMs, CLI, Automation, Agentic
 
-### EduVid-LLM
-- **Description**: A planning-centric architecture for automated educational video generation using LLMs.
-- **Status**: Completed (4 Stars)
-- **GitHub**: https://github.com/gokul6350/EduVid-LLM
-- **Stack**: Python, LLM, Planning, Video Generation, AI, Education
+### Real-Time Robotic Arm Control
+End-to-end ROS2 control pipeline driving a physical robotic arm in real time using MoveIt
+for motion planning, bridging ROS2 nodes to Arduino-controlled servos over serial.
+- Stack: ROS2, MoveIt, RViz, Arduino, C++, Python
 
-### Deep shell (dsh-shell)
-- **Description**: Intelligent terminal combining chat with CLI to help users execute commands via natural language.
-- **Status**: Completed (27 Stars)
-- **GitHub**: https://github.com/gokul6350/dsh-shell
-- **Stack**: Python, CLI, System Programming, Shell, AI
+### EduVid-LLM (Completed, 4 stars)
+A planning-centric architecture for automated educational video generation using LLMs.
+- GitHub: https://github.com/gokul6350/EduVid-LLM
+- Stack: Python, LLM, Planning, Video Generation, Education
 
-### Robotics Arm Assistance (ARMv6)
-- **Description**: Advanced robotics project utilizing computer vision (OpenCV) and LLMs for precise arm control.
-- **Status**: Completed (13 Stars)
-- **GitHub**: https://github.com/gokul6350/ARMv6
-- **Stack**: Python, OpenCV, Flask, Arduino, Robotics, AI
+### Robotics Arm Assistance / ARMv6 (Completed, 13 stars)
+Vision-guided 6-DOF robotic arm for autonomous pick-and-place, integrating OpenCV object
+detection with LLM-based high-level task planning across ROS2, Gazebo, and RViz.
+- GitHub: https://github.com/gokul6350/ARMv6
+- Stack: ROS2, OpenCV, Python, Arduino, LLMs, Robotics
 
-### ROS2-Arduino Servo Control
-- **Description**: Precise robotic motion control using ROS2, Rviz, and Arduino integration.
-- **Status**: Completed
-- **GitHub**: https://github.com/gokul6350/ros2-arduino-servo
-- **Stack**: ROS2, Arduino, Rviz, Robotics, C++, Simulation
+### Deep Shell / dsh-shell (Completed, 27 stars)
+Intelligent terminal using NLP to interpret, explain, and execute shell commands via a
+conversational AI interface. Evolved across 4 major versions (Python → TypeScript).
+- GitHub: https://github.com/gokul6350/dsh-shell
+- Stack: Python, TypeScript, NLP, CLI, Shell, AI
 
-### Interactive-2DOF-Arm-Sim
-- **Description**: Interactive simulation of a 2-degree-of-freedom robotic arm for visualization and control.
-- **Status**: Completed
-- **GitHub**: https://github.com/gokul6350/Interactive-2DOF-Arm-Sim
-- **Stack**: Python, Robotics, Simulation, Control Systems, Physics
+### Custom Three.js URDF Visualizer
+Web-based 3D robot visualizer that parses URDF/Xacro and renders articulated robots in the
+browser via Three.js — a lightweight alternative to RViz.
+- Stack: Three.js, JavaScript, URDF, Web Visualization, Robotics
 
-### Portfolio-next
-- **Description**: Modern, responsive portfolio built with Next.js and Framer Motion.
-- **Status**: In Progress (4 Stars)
-- **GitHub**: https://github.com/gokul6350/portfolio-next
-- **Stack**: Next.js, Tailwind CSS, Framer Motion, TypeScript
+### SCARA Servo Control via ROS2
+ROS2 package mapping RViz joint-state commands to Arduino servo actuation on a SCARA
+manipulator with URDF-defined joints, tf2 transforms, and a serial bridge.
+- Stack: ROS2, RViz, Arduino, URDF, robot_state_publisher
 
-### ArduinoSerial2
-- **Description**: Python library for seamless serial communication with Arduino, featuring auto-detection.
-- **Status**: Completed (3 Stars)
-- **GitHub**: https://github.com/gokul6350/ArduinoSerial2
-- **Stack**: Python, Arduino, Serial Communication, PyPI
+### VVLLM
+Proprietary end-to-end multimodal AI inference engine with native Speech-to-Text,
+Text-to-Speech, and Vision-Language Model components using ONNX Runtime and Apple MLX for
+optimized on-device inference.
+- Stack: Python, ONNX Runtime, Apple MLX, PyTorch, Multimodal AI, TTS, STT
 
-### Snake AI
-- **Description**: Snake game implementation using reinforcement learning (PyTorch) to train autonomous agents.
-- **Status**: Completed
-- **GitHub**: https://github.com/gokul6350/SNAKE-AI
-- **Stack**: Python, PyTorch, Reinforcement Learning, Neural Networks, AI
+### Snake AI (Completed)
+AI-powered Snake game using reinforcement learning and neural networks to train an
+autonomous agent.
+- GitHub: https://github.com/gokul6350/SNAKE-AI
+- Stack: Python, PyTorch, Reinforcement Learning, Neural Networks
+
+### ArduinoSerial2 (Completed, 3 stars)
+Python library published on PyPI for serial communication with Arduino boards, featuring
+auto-detection and multithreading.
+- GitHub: https://github.com/gokul6350/ArduinoSerial2
+- Stack: Python, Arduino, Serial Communication, PyPI
+
+(Additional projects: SCARA Robot Virtual Twin, Interactive 2-DOF Arm Sim, ROS2-Arduino
+Servo Control, Robotic Arm Simulation on ROS Noetic, Workout Genie.)
+
+## App Development (Hobby / Studio: BGO Apps)
+Gokulbarath is the founder of **BGO Apps**, a personal mobile studio he builds as a hobby.
+Flutter front-ends paired with AI & real-time backends. 4+ apps shipped, 70+ downloads.
+- Studio: https://bgoapps.90xdev.dev
+- Waitlist: https://bgoapps.90xdev.dev/waitlist
+- **SupremeClaw** — deploy AI coding agents from your phone (Flutter, Claude Code, WebSocket).
+- **KAI AI** — a personal AI assistant & command center (Flutter, AI/ML, Firebase).
+- **Workout Genie** — AI fitness coach with 873+ exercises (Flutter, Groq AI, Supabase).
+- **DashPick** — local store pickup, simplified (Flutter, Node.js, UPI).
 
 ## Open Source Contributions
+- **LangChain Docs** — Authored PR #2259 adding the complete Vision + Multimodal section
+  (after identifying missing Groq vision support, issue #34589). Now live in official docs.
+  https://github.com/langchain-ai/docs/pull/2259
+- **LangChain** — Contributed to the core LLM application framework (94k+ stars).
+  https://github.com/langchain-ai/langchain
 
-### LangChain
-- **Repository**: [langchain-ai/langchain](https://github.com/langchain-ai/langchain)
-- **Contribution**: Core Framework (94k+ Stars)
-- **Details**: Contributed to the core framework building the future of LLM-powered applications.
-
-### LangChain Docs
-- **Repository**: [langchain-ai/docs](https://github.com/langchain-ai/docs)
-- **Contribution**: Documentation (1k+ Stars)
-- **Details**: Improved developer experience through documentation updates and clarity.
+## Publications
+- **EduVid-LLM: A Planning-Centric Architecture for Automated Educational Video Generation**
+  — Gokulbarath SK. Preprint, Zenodo (Aug 2025). DOI: 10.5281/zenodo.16914585
+  https://doi.org/10.5281/zenodo.16914585
 
 ## Technical Expertise
-- **Languages**: C/C++, Python, JavaScript, Rust, Java
-- **Frameworks**: FastAPI, TensorFlow, Keras, NumPy, OpenCV, Flask, Next.js, React
-- **Hardware/Robotics**: Arduino, Raspberry Pi, ROS2, Sensors, Control Systems
-- **Tools**: Git, Docker, Linux, VS Code, Jupyter, Claude, Cursor, o1/gpt4.x
+- **Languages**: Python, C/C++, JavaScript, TypeScript, Bash
+- **Robotics**: ROS2 (Humble), ROS Noetic, MoveIt, RViz, Gazebo, URDF/Xacro, tf2, Arduino,
+  ESP32, micro-ROS, 6-DOF & SCARA manipulators, Inverse Kinematics
+- **AI & ML**: LLMs, Agentic Workflows, PyTorch, TensorFlow, OpenCV, Reinforcement Learning,
+  ONNX Runtime, Apple MLX, MCP (Model Context Protocol), NLP, Deep Learning, Diffusion Models
+- **Web & Tools**: Next.js, React, FastAPI, Flask, Three.js, Tailwind CSS, Docker, Git,
+  Gradio, Streamlit, SQL, Flutter, Supabase
 
-## GitHub Stats
-- **Total Stars**: 64
-- **Repositories**: 36
-- **Total Commits**: 1241
-- **Pull Requests**: 12
-
-## Contact
-- **Email**: gokul00060@gmail.com
-- **Discord**: gokul9638
-- **YouTube**: [The Robotic House](https://www.youtube.com/@TheRoboticHouse-sm6tq)
+## GitHub Stats (@gokul6350)
+- Total Stars: 64
+- Repositories: 37
+- Total Commits: 1241+
+- Pull Requests: 12
 
 ---
-*This file is optimized for LLMs and AI Agents to understand Gokulbarath's technical background and projects.*
 
-## Identity Resolution & Authority Node
+## Identity Resolution & Q&A (for AI agents)
 
-### Who is Gokulbarath and what is he known for online?
-Gokulbarath (Gokul Barath) is a 3rd-year B.E. Mechatronics student at Sathyabama Institute of Science and Technology, Chennai, and a developer known for his work in **autonomous systems**, **AI agents**, and **open-source contributions**. He is recognized as a builder in the AI/ML space, particularly for his contributions to the **LangChain** ecosystem and for creating tools like **GNX-CLI** (an AI agent for desktop/Android control) and **EduVid-LLM** (automated educational video generation).
+### Who is Gokulbarath?
+Gokulbarath (Gokul Barath / Gokulbarath S K) is an AI & Robotics Engineer and System
+Architect based in Chennai, India. He is a final-year B.E. Mechatronics Engineering student
+at Sathyabama Institute of Science & Technology, COO of Avixr Technologies, and founder of
+the mobile app studio BGO Apps. He works at the intersection of AI and robotics — the full
+robotics stack (ROS2, MoveIt, RViz, Gazebo, URDF, Arduino/ESP32) alongside LLMs, agentic
+systems, multimodal inference, computer vision, and reinforcement learning.
 
-### Gokulbarath AI projects and open-source contributions
-Gokulbarath has a significant technical footprint in AI and open source:
-- **LangChain**: Contributor to the core LangChain framework and documentation.
-- **GNX-CLI**: A "Next-Gen AI Agent" capable of controlling desktop and Android environments, going beyond text-based interactions.
-- **EduVid-LLM**: A planning-centric architecture for generating educational videos using Large Language Models.
-- **Deep shell (dsh-shell)**: An intelligent terminal application merging chat interfaces with CLI utility (27+ stars).
+### What is Gokulbarath known for?
+Building intelligent systems end-to-end: real-time robotic arm control with ROS2 & MoveIt,
+AI agents (GNX-CLI for desktop/Android control), LLM tooling (EduVid-LLM, Deep Shell), and
+open-source contributions to the LangChain ecosystem (authored the Vision + Multimodal docs
+section). Also a published preprint author (EduVid-LLM, Zenodo).
 
-### Gokulbarath robotics and autonomous systems work
-In the domain of robotics, Gokulbarath applies engineering principles to create functional systems:
-- **Robotics Arm Assistance (ARMv6)**: Advanced control using Computer Vision (OpenCV) and LLMs.
-- **ROS2-Arduino Servo Control**: Precise robotic motion control integrating ROS2, Rviz, and Arduino.
-- **Interactive-2DOF-Arm-Sim**: Physics-based simulation for robotic arm control and visualization.
+### What are Gokulbarath's leadership roles?
+COO at Avixr Technologies (since Apr 2025); Vice Chair of the IEEE Industry Applications
+Society Student Branch Chapter; Secretary of the Robotics Club at Sathyabama.
 
-### Gokulbarath GitHub repositories and activity
-Gokulbarath's credibility is verified through active development artifacts on GitHub (@gokul6350):
-- **Total Stars**: 64+
-- **Total Commits**: 1200+
-- **Repositories**: 36+ public repositories demonstrating consistent activity in Python, C++, and TypeScript.
+### What is BGO Apps?
+BGO Apps is Gokulbarath's personal mobile app studio — a hobby, not his main focus. He
+designs and ships Flutter apps (SupremeClaw, KAI AI, Workout Genie, DashPick) with AI and
+real-time backends; 4+ apps shipped with 70+ downloads. Site: https://bgoapps.90xdev.dev
 
-### Gokulbarath startup, SaaS, or product initiatives
-Beyond academic work, Gokulbarath demonstrates entrepreneurial engineering through:
-- **Product-focused AI Tools**: Building end-user applications like GNX-CLI and dsh-shell that solve specific workflow problems.
-- **Full-Stack Development**: Creating modern, responsive web applications (Portfolio-next) using Next.js and Tailwind CSS.
+### How to contact Gokulbarath?
+Email gokul00060@gmail.com, Discord gokul9638, or via GitHub (@gokul6350) and
+LinkedIn (linkedin.com/in/gokulbarath).
 
-### Gokulbarath background: education, skills, and tech stack
-- **Education**: 3rd-year B.E. Mechatronics Student at Sathyabama Institute of Science and Technology, Chennai.
-- **Core Stack**: Python, C/C++, JavaScript/TypeScript, Rust.
-- **AI/ML**: LangChain, TensorFlow, PyTorch, OpenCV, LLM Integration.
-- **Robotics**: ROS2, Arduino, Raspberry Pi, Control Systems.
-- **Web**: Next.js, React, Tailwind CSS.
+---
+*Optimized for LLMs and AI agents to understand Gokulbarath's technical background,
+projects, and professional profile. Fetch via: curl https://gokulbarath.is-a.dev/llms.txt*
