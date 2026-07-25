@@ -30,100 +30,11 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import dynamic from "next/dynamic"
+import Link from "next/link"
+import { LanguagesSection } from "@/src/modules/languages/LanguagesSection"
+import { IntroLoader } from "@/src/modules/intro/IntroLoader"
 
 const GitHubCalendar = dynamic(() => import("react-github-calendar"), { ssr: false })
-
-/** Full-screen intro: counts 0→100, then wipes away to reveal the page. */
-// Tech stack flashed through during the intro loader.
-const introLogos = [
-  { src: "/logos/python.png", label: "Python" },
-  { src: "/logos/pytorch.png", label: "PyTorch" },
-  { src: "/logos/tensorflow.jpeg", label: "TensorFlow" },
-  { src: "/logos/opencv.png", label: "OpenCV" },
-  { src: "/logos/huggingface.png", label: "Hugging Face" },
-  { src: "/logos/moveit.png", label: "MoveIt" },
-  { src: "/logos/gazebo.png", label: "Gazebo" },
-  { src: "/logos/arduino.png", label: "Arduino" },
-  { src: "/logos/esp.png", label: "ESP32" },
-  { src: "/logos/flutter.png", label: "Flutter" },
-  { src: "/logos/react.png", label: "React" },
-  { src: "/logos/nextjs.png", label: "Next.js" },
-  { src: "/logos/postgres.png", label: "PostgreSQL" },
-  { src: "/logos/kotlin.png", label: "Kotlin" },
-]
-
-function IntroLoader({ onDone }: { onDone: () => void }) {
-  const [n, setN] = useState(0)
-  const [logo, setLogo] = useState(0)
-  const [leaving, setLeaving] = useState(false)
-
-  useEffect(() => {
-    const start = performance.now()
-    const duration = 1600
-    let raf = 0
-    const tick = (now: number) => {
-      const p = Math.min((now - start) / duration, 1)
-      const eased = 1 - Math.pow(1 - p, 3)
-      setN(Math.round(eased * 100))
-      if (p < 1) raf = requestAnimationFrame(tick)
-      else setTimeout(() => setLeaving(true), 250)
-    }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [])
-
-  // flash through the stack, one logo every ~110ms
-  useEffect(() => {
-    const reduce =
-      typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
-    if (reduce) return
-    const id = setInterval(() => setLogo((i) => (i + 1) % introLogos.length), 110)
-    return () => clearInterval(id)
-  }, [])
-
-  const current = introLogos[logo]
-
-  return (
-    <motion.div
-      initial={{ y: 0 }}
-      animate={leaving ? { y: "-100%" } : { y: 0 }}
-      transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
-      onAnimationComplete={() => leaving && onDone()}
-      className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-primary text-primary-foreground"
-    >
-      {/* flashing tech-stack logo on a white chip */}
-      <div className="mb-8 flex h-24 flex-col items-center justify-center gap-3">
-        <AnimatePresence mode="popLayout">
-          <motion.div
-            key={logo}
-            initial={{ opacity: 0, scale: 0.85, filter: "blur(4px)" }}
-            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            exit={{ opacity: 0, scale: 1.1 }}
-            transition={{ duration: 0.12 }}
-            className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3 shadow-lg"
-          >
-            <img src={current.src} alt="" className="h-full w-full object-contain" />
-          </motion.div>
-        </AnimatePresence>
-        <motion.span
-          key={`l-${logo}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.8 }}
-          className="font-mono text-[10px] uppercase tracking-[0.3em]"
-        >
-          {current.label}
-        </motion.span>
-      </div>
-
-      <span className="font-display tabular-nums leading-none" style={{ fontSize: "clamp(4rem,14vw,12rem)" }}>
-        {n.toString().padStart(3, "0")}
-      </span>
-      <div className="mt-8 h-px w-40 overflow-hidden bg-primary-foreground/20">
-        <motion.div className="h-full bg-primary-foreground" style={{ width: `${n}%` }} />
-      </div>
-    </motion.div>
-  )
-}
 
 /** Element that leans toward the cursor, springing back on leave. */
 function Magnetic({ children, className, strength = 0.4 }: { children: ReactNode; className?: string; strength?: number }) {
@@ -265,6 +176,22 @@ export function PortfolioPage() {
   const { scrollYProgress } = useScroll()
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState("All")
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("portfolio_theme")
+    if (savedTheme) {
+      setIsDark(savedTheme === "dark")
+    }
+  }, [])
+
+  const toggleTheme = () => {
+    setIsDark((prev) => {
+      const next = !prev
+      localStorage.setItem("portfolio_theme", next ? "dark" : "light")
+      return next
+    })
+  }
+
 
   const techStack = {
     Languages: ["Python", "C/C++", "JavaScript", "TypeScript", "Bash"],
@@ -613,6 +540,9 @@ export function PortfolioPage() {
               <a href="#experience" className="text-muted-foreground hover:text-primary whitespace-nowrap">
                 Experience
               </a>
+              <Link href="/events" className="text-muted-foreground hover:text-primary whitespace-nowrap font-medium text-primary/90">
+                Events
+              </Link>
               <a href="#projects" className="text-muted-foreground hover:text-primary whitespace-nowrap">
                 Projects
               </a>
@@ -626,7 +556,7 @@ export function PortfolioPage() {
                 Contact
               </a>
             </div>
-            <Button variant="ghost" size="icon" onClick={() => setIsDark(!isDark)} className="rounded-full shrink-0">
+            <Button variant="ghost" size="icon" onClick={toggleTheme} className="rounded-full shrink-0">
               {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
           </nav>
@@ -870,6 +800,7 @@ export function PortfolioPage() {
                           <Badge variant="secondary">IoT</Badge>
                         </div>
                       </div>
+                      <LanguagesSection />
                     </div>
                   </CardContent>
                 </Card>
