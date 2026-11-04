@@ -202,6 +202,52 @@ export function PortfolioPage() {
 
   const projects = [
     {
+      title: "Delivery Drone Autopilot & Gazebo Simulation",
+      category: "Robotics",
+      description: "AeroTHON 2026. ArduPilot SITL + Gazebo simulation of a QR-based delivery mission with a custom dual-camera quadcopter and arena world, bridged to ROS2 Jazzy/RViz2 via pymavlink. Configured a Cube Orange+ (ArduCopter 4.7.1) via QGroundControl/MAVLink, built a live telemetry dashboard, and flew field tests (Oct 2026).",
+      tags: ["ArduPilot", "Gazebo", "ROS2", "MAVLink", "Cube Orange+", "QGroundControl"],
+      status: "Completed",
+      featured: true,
+      image: "/projects/drone/mission_sim.gif",
+    },
+    {
+      title: "Vision-Guided Autonomous Delivery",
+      category: "Robotics",
+      description: "Raspberry Pi companion computer running a takeoff, search, QR lock, centred descent and land state machine over MAVLink with payload release, tested in closed-loop SITL and shadow-mode field flights. QR marker decoded up to 10.23 m altitude using CLAHE/Wiener-filter image rescue on dual synced cameras.",
+      tags: ["Python", "Raspberry Pi", "OpenCV", "zxing-cpp", "AprilTag", "MAVLink"],
+      status: "Completed",
+      featured: true,
+      image: "/projects/drone/qr_lock.gif",
+    },
+    {
+      title: "LiDAR Obstacle Avoidance (ArduPilot BendyRuler)",
+      category: "Robotics",
+      description: "RPLIDAR C1 integrated with a Cube Orange+ as an ArduPilot proximity sensor; BendyRuler path-planning obstacle avoidance configured and validated in SITL.",
+      tags: ["ArduPilot", "BendyRuler", "RPLIDAR", "SITL"],
+      status: "Completed",
+      featured: true,
+      image: "/projects/drone/bendyruler_fixed.gif",
+    },
+    {
+      title: "Axiom Mission Control: Custom Drone Ground Station",
+      category: "Robotics",
+      description: "Custom macOS ground-station app (Electron + Leaflet) for the AeroTHON 2026 delivery drone (Cube Orange+ with Raspberry Pi companion), connected over Wi-Fi. Live dual-camera feeds, ~5 Hz flight telemetry, Pi health and event log, plus an Arena Search planner that auto-generates a zigzag lawnmower plan on a satellite map, with a bench dry-run mode and payload-release control.",
+      tags: ["Electron", "Leaflet", "MAVLink", "Raspberry Pi", "Cube Orange+"],
+      status: "Completed",
+      featured: true,
+      image: "/projects/ground-station/axiom_gcs.gif",
+      youtube: "https://youtu.be/tckckXhzRuw",
+      youtube2: "https://youtu.be/ypv43kWb3Bo",
+    },
+    {
+      title: "Gemma Arm",
+      category: "Robotics",
+      description: "Offline robot arm that picks up objects from a natural-language command, powered by Google Gemma 4 running locally on a Raspberry Pi 5 (no cloud, no GPU). Fine-tuned with LoRA on a free Colab GPU and demoed live in my Google DevFest Chennai 2026 talk, \"Local AI: The Google Gemma Edition\" (GDG Chennai, IIT Madras Research Park, 17 Oct 2026).",
+      tags: ["Google Gemma", "Gemma 4", "Raspberry Pi 5", "LoRA", "Edge AI", "Robotics"],
+      status: "Completed",
+      image: "/projects/devfest-robot/gemma-arm.gif",
+    },
+    {
       title: "Real-Time Robotic Arm Control",
       category: "Robotics",
       description: "End-to-end ROS2 control pipeline driving a physical robotic arm in real time using MoveIt for motion planning, bridging ROS2 nodes to Arduino-controlled servos over serial for closed-loop feedback.",
@@ -1132,16 +1178,31 @@ export function PortfolioPage() {
                             )}
                             {project.youtube && (
                               <Button
+                                asChild
                                 variant="outline"
                                 size="sm"
                                 className="h-7 text-xs border-red-500/20 text-red-600 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-500/10"
-                                onClick={() => window.open(project.youtube, "_blank")}
-                              >
+                                >
+                                  <a href={project.youtube} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                                 <Youtube className="h-3.5 w-3.5 mr-1" />
-                                YouTube
+                                ▶ Watch demo
+                                  </a>
                               </Button>
                             )}
-                            {!project.github && !project.youtube && (
+                            {project.youtube2 && (
+                              <Button
+                                asChild
+                                variant="outline"
+                                size="sm"
+                                className="h-7 text-xs border-red-500/20 text-red-600 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-500/10"
+                                >
+                                  <a href={project.youtube2} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                                <Youtube className="h-3.5 w-3.5 mr-1" />
+                                ▶ Demo 2
+                                  </a>
+                              </Button>
+                            )}
+                            {!project.github && !project.youtube && !project.youtube2 && (
                               <Button
                                 variant="outline"
                                 size="sm"
@@ -1201,9 +1262,16 @@ export function PortfolioPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.05 }}
                     viewport={{ once: true }}
-                    className="mt-4 font-serif text-4xl md:text-6xl leading-[0.95] tracking-tight"
+                    className="mt-4"
                   >
-                    BGO&nbsp;Apps
+                    <span className="sr-only">BGO Apps</span>
+                    <img
+                      src="/bgo-apps-logo.png"
+                      alt="BGO Apps logo"
+                      width={920}
+                      height={400}
+                      className="h-20 md:h-28 w-auto rounded-2xl border border-white/10 shadow-lg"
+                    />
                   </motion.h3>
                   <motion.p
                     initial={{ opacity: 0 }}
@@ -1221,7 +1289,7 @@ export function PortfolioPage() {
                         className="font-sans rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-2 h-11 px-7 font-semibold shadow-md"
                         asChild
                       >
-                        <a href="https://bgoapps.90xdev.dev/" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.bgoapps.xyz/" target="_blank" rel="noopener noreferrer">
                           Visit BGO Apps <ArrowUpRight className="h-4 w-4" />
                         </a>
                       </Button>
@@ -1233,7 +1301,7 @@ export function PortfolioPage() {
                           className="cta-shimmer font-sans rounded-full border-transparent bg-background text-primary hover:bg-primary/5 gap-2 h-11 px-7 font-semibold shadow-sm relative z-10"
                           asChild
                         >
-                          <a href="https://bgoapps.90xdev.dev/waitlist" target="_blank" rel="noopener noreferrer">
+                          <a href="https://www.bgoapps.xyz/kai/" target="_blank" rel="noopener noreferrer">
                             <motion.span
                               animate={{ rotate: [0, 15, -10, 0], scale: [1, 1.2, 1] }}
                               transition={{ duration: 2.2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
@@ -1241,7 +1309,7 @@ export function PortfolioPage() {
                             >
                               <Sparkles className="h-4 w-4" />
                             </motion.span>
-                            Join the Waitlist
+                            Try KAI AI
                           </a>
                         </Button>
                       </div>
@@ -1252,9 +1320,9 @@ export function PortfolioPage() {
                 {/* stat block */}
                 <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border bg-border">
                   {[
-                    { n: "4+", l: "Apps Shipped" },
-                    { n: "70+", l: "Downloads" },
-                    { n: "AI", l: "Powered" },
+                    { n: "8+", l: "Apps Shipped" },
+                    { n: "500+", l: "Downloads" },
+                    { n: "Human", l: "Designed" },
                     { n: "∞", l: "For the Craft" },
                   ].map((s) => (
                     <div key={s.l} className="flex flex-col items-center justify-center gap-1 bg-card px-4 py-8">
@@ -1271,7 +1339,7 @@ export function PortfolioPage() {
                 {apps.map((app, i) => (
                   <motion.a
                     key={app.name}
-                    href="https://bgoapps.90xdev.dev/"
+                    href="https://www.bgoapps.xyz/"
                     target="_blank"
                     rel="noopener noreferrer"
                     initial={{ opacity: 0, y: 20 }}
