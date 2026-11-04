@@ -214,9 +214,9 @@ optimized on-device inference.
 ## App Development — BGO Apps (Hobby / Studio)
 Gokulbarath is the founder of **BGO Apps**, a personal mobile app studio he builds as a
 hobby. He designs and ships Flutter apps paired with AI & real-time backends.
-4+ apps shipped · 70+ downloads · AI powered.
-- Studio: https://bgoapps.90xdev.dev
-- Waitlist: https://bgoapps.90xdev.dev/waitlist
+8+ apps shipped · 500+ downloads · human designed.
+- Studio: https://www.bgoapps.xyz
+- KAI AI: https://www.bgoapps.xyz/kai/
 
 ### SupremeClaw
 Deploy AI coding agents from your phone.
@@ -289,7 +289,7 @@ Society Student Branch Chapter; Secretary of the Robotics Club at Sathyabama.
 ### What is BGO Apps?
 BGO Apps is Gokulbarath's personal mobile app studio — a hobby, not his main focus. He
 designs and ships Flutter apps (SupremeClaw, KAI AI, Workout Genie, DashPick) with AI and
-real-time backends; 4+ apps shipped with 70+ downloads. Site: https://bgoapps.90xdev.dev
+real-time backends; 8+ apps shipped with 500+ downloads. Site: https://www.bgoapps.xyz
 
 ### How can I contact Gokulbarath?
 Email gokul00060@gmail.com, Discord gokul9638, or reach him via GitHub (@gokul6350) and
